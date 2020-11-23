@@ -28,7 +28,8 @@
     "pantajoe.vscode-elixir-credo",
     "mhutchie.git-graph",
     "eamodio.gitlens",
-    "mohsen1.prettify-json"
+    "mohsen1.prettify-json",
+    "ms-vsliveshare.vsliveshare-pack"
   ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   "forwardPorts": [
