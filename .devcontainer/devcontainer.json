@@ -5,7 +5,9 @@
   "name": "Elixir Sonic Client",
   // Update the 'dockerComposeFile' list if you have more compose files or use different names.
   // The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
-  "dockerComposeFile": ["docker-compose.yml"],
+  "dockerComposeFile": [
+    "docker-compose.yml"
+  ],
   // The 'service' property is the name of the service for the container that VS Code should
   // use. Update this value and .devcontainer/docker-compose.yml to the real service name.
   "service": "elixir",
@@ -23,10 +25,15 @@
   "extensions": [
     "JakeBecker.elixir-ls",
     "ms-azuretools.vscode-docker",
-    "pantajoe.vscode-elixir-credo"
+    "pantajoe.vscode-elixir-credo",
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+    "mohsen1.prettify-json"
   ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [4000],
+  "forwardPorts": [
+    4000
+  ],
   // "postCreateCommand": "sudo chown $USERNAME:$USERNAME assets/node_modules deps _build .elixir_ls",
   // Uncomment the next line if you want start specific services in your Docker Compose config.
   // "runServices": [],
