@@ -2,7 +2,7 @@ name: generate-docs
 on:
   push:
     branches:
-      - doc-6/setup_for_docs
+      - main
 jobs:
   build-and-deploy:
     name: Generate project documentation
