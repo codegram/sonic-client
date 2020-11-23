@@ -2,7 +2,6 @@ defmodule ElixirSonicClient do
   @moduledoc """
   Client for [Sonic search backend](https://github.com/valeriansaliou/sonic)
   """
-
   @moduledoc since: "0.1.0"
 
   @doc """
