@@ -1,8 +1,8 @@
 name: generate-docs
-on: [push]
-  # push:
-  #   branches:
-  #     - main
+on:
+  push:
+    branches:
+      - doc-6/setup_for_docs
 jobs:
   build-and-deploy:
     name: Generate project documentation
@@ -16,11 +16,10 @@ jobs:
       - name: Build docs
         uses: lee-dohm/generate-elixir-docs@v1
       - name: Publish to Pages
-        uses: peaceiris/actions-gh-pages@v1.0.1
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./doc
-        
         # env:
         #   ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         #   PUBLISH_DIR: ./doc
