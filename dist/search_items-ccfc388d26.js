@@ -1,0 +1,1 @@
+searchNodes=[{"doc":"Client for Sonic search backend","ref":"ElixirSonicClient.html","title":"ElixirSonicClient","type":"module"},{"doc":"Hello world.Examplesiex&gt; ElixirSonicClient.hello() :world","ref":"ElixirSonicClient.html#hello/0","title":"ElixirSonicClient.hello/0","type":"function"}]
