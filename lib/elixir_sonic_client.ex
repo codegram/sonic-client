@@ -1,20 +1,28 @@
 defmodule ElixirSonicClient do
+  alias ElixirSonicClient.TcpConnection
+
   @moduledoc """
   Client for [Sonic search backend](https://github.com/valeriansaliou/sonic)
   """
 
-  @moduledoc since: "0.1.0"
-
   @doc """
-  Hello world.
+  Start Connection with Sonic Server.
 
   ## Examples
 
-      iex> ElixirSonicClient.hello()
+      iex> ElixirSonicClient.start(127.0.0.1, 1491, "search")
       :world
 
   """
-  def hello do
-    :world
+  def start(host, port, mode, password) do
+    {:ok, conn} = TcpConnection.start_link(host, port, [])
+    TcpConnection.send(conn, "START #{mode} #{password}")
+    TcpConnection.recv(conn)
+    {:ok, conn}
+  end
+
+  def ping(conn) do
+    TcpConnection.send(conn, "PING")
+    TcpConnection.recv(conn)
   end
 end
