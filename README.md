@@ -17,6 +17,14 @@ def deps do
 end
 ```
 
+## Testing sonic connection inside devcontainer
+
+```bash
+telnet sonic 1491
+START control SecretPassword
+PING
+```
+
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/elixir_sonic_client](https://hexdocs.pm/elixir_sonic_client).
