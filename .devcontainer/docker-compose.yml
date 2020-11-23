@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  elixir:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/home/vscode/app:delegated
+      - deps:/home/vscode/app/deps
+      - elixir_ls:/home/vscode/app/.elixir_ls
+      - build:/home/vscode/app/_build
+    depends_on:
+      - sonic
+    command: /bin/sh -c "while sleep 1000; do :; done"
+  sonic:
+    image: valeriansaliou/sonic:v1.3.0
+    expose:
+      - "1491"
+    volumes:
+      - ../priv/sonic/sonic.cfg:/etc/sonic.cfg
+      - sonic:/var/lib/sonic/store
+
+volumes:
+  deps:
+  elixir_ls:
+  build:
+  sonic:
