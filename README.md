@@ -1,5 +1,7 @@
 # ElixirSonicClient
 
+Sonic Client for Elixir
+
 **TODO: Add description**
 
 ## Installation
