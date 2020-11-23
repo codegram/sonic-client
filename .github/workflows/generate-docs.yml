@@ -10,6 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-elixir@v1 # See documentation for examples of input parameters
+        with:
+          otp-version: "22.3"
+          elixir-version: "1.10.4"
       - name: Build docs
         uses: lee-dohm/generate-elixir-docs@v1
       - name: Publish to Pages
