@@ -4,6 +4,9 @@ Sonic Client for Elixir
 
 **TODO: Add description**
 
+## Docs
+https://codegram.github.io/elixir-sonic-client/
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
