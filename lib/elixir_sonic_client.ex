@@ -17,4 +17,8 @@ defmodule ElixirSonicClient do
   def hello do
     :world
   end
+
+  def ping do
+    :pong
+  end
 end
