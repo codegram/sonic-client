@@ -11,7 +11,7 @@ defmodule ElixirSonicClient do
   ## Examples
 
       iex> ElixirSonicClient.start(127.0.0.1, 1491, "search")
-      :world
+      {:ok, conn}
 
   """
   def start(host, port, mode, password) do
@@ -24,6 +24,16 @@ defmodule ElixirSonicClient do
     end
   end
 
+  @doc """
+  Start Connection with Sonic Server.
+
+  ## Examples
+
+      iex> {:ok, conn} = ElixirSonicClient.start(127.0.0.1, 1491, "search")
+      iex> {:ok, conn} = ElixirSonicClient.ping(conn)
+      PONG
+
+  """
   def ping(conn) do
     TcpConnection.send(conn, "PING")
     TcpConnection.recv(conn)
