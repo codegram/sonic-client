@@ -27,8 +27,7 @@ defmodule ElixirSonicClientTest do
     TcpConnection.close(conn)
   end
 
-  @tag :wip
-  test "stop" do
+  test "stop connection" do
     {:ok, conn} =
       ElixirSonicClient.start(
         Kernel.to_charlist("sonic"),
@@ -37,6 +36,27 @@ defmodule ElixirSonicClientTest do
         "SecretPassword"
       )
 
-    inspect(ElixirSonicClient.stop(conn))
+    ElixirSonicClient.stop(conn)
+  end
+
+  @tag :wip
+  test "add data to the index" do
+    {:ok, conn} =
+      ElixirSonicClient.start(
+        Kernel.to_charlist("sonic"),
+        1491,
+        "search",
+        "SecretPassword"
+      )
+
+    collection = "some-collection"
+    object = "the-object-it-belongs-to"
+    term = "Some text in it"
+
+    assert :ok == ElixirSonicClient.push(conn, collection, object, term)
+    assert 1 == ElixirSonicClient.count(conn, collection)
+
+    ElixirSonicClient.flush(conn, collection)
+    ElixirSonicClient.stop(conn)
   end
 end

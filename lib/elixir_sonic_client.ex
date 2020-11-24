@@ -1,5 +1,6 @@
 defmodule ElixirSonicClient do
   alias ElixirSonicClient.TcpConnection
+  alias ElixirSonicClient.Modes.Ingest
 
   @moduledoc """
   Client for [Sonic search backend](https://github.com/valeriansaliou/sonic)
@@ -50,4 +51,10 @@ defmodule ElixirSonicClient do
     TcpConnection.send(conn, "PING")
     TcpConnection.recv(conn)
   end
+
+  defdelegate push(conn, collection, object, term), to: Ingest
+
+  defdelegate count(conn, collection), to: Ingest
+
+  defdelegate flush(conn, collection), to: Ingest
 end
