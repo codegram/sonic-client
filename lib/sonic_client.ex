@@ -1,7 +1,6 @@
 defmodule SonicClient do
-  alias ElixirSonicClient.TcpConnection
-  alias ElixirSonicClient.Modes.Ingest
-  alias ElixirSonicClient.Modes.Control
+  alias SonicClient.Modes.Control
+  alias SonicClient.Modes.Ingest
   alias SonicClient.TcpConnection
 
   @moduledoc """
