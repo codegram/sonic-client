@@ -13,7 +13,6 @@ defmodule ElixirSonicClientTest do
     # conn |> inspect |> IO.puts()
   end
 
-  @tag :wip
   test "ping" do
     {:ok, conn} =
       ElixirSonicClient.start(
@@ -24,6 +23,6 @@ defmodule ElixirSonicClientTest do
       )
 
     # conn |> inspect |> IO.puts()
-    assert {:ok, Kernel.to_charlist("PONG\r\n")} == ElixirSonicClient.ping(conn)
+    assert {:ok, "PONG"} == ElixirSonicClient.ping(conn)
   end
 end

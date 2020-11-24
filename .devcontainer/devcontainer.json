@@ -28,6 +28,7 @@
     "pantajoe.vscode-elixir-credo",
     "mhutchie.git-graph",
     "eamodio.gitlens",
+    "donjayamanne.githistory",
     "mohsen1.prettify-json",
     "ms-vsliveshare.vsliveshare-pack"
   ],
