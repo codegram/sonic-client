@@ -45,11 +45,11 @@ defmodule ElixirSonicClientTest do
       ElixirSonicClient.start(
         Kernel.to_charlist("sonic"),
         1491,
-        "search",
+        "ingest",
         "SecretPassword"
       )
 
-    collection = "some-collection"
+    collection = "messages"
     object = "the-object-it-belongs-to"
     term = "Some text in it"
 

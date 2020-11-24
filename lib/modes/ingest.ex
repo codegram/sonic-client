@@ -1,7 +1,7 @@
 defmodule ElixirSonicClient.Modes.Ingest do
   alias ElixirSonicClient.TcpConnection
 
-  @default_bucket_name "default_bucket"
+  @default_bucket_name "default:bucket"
 
   def push(conn, collection, object, term) do
     TcpConnection.send(
@@ -17,6 +17,7 @@ defmodule ElixirSonicClient.Modes.Ingest do
     end
   end
 
+  @spec count(any, any) :: nil
   def count(conn, collection) do
   end
 
