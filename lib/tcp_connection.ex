@@ -22,6 +22,15 @@ defmodule ElixirSonicClient.TcpConnection do
     Connection.start_link(__MODULE__, {host, port, opts, timeout})
   end
 
+  def open(host, port, opts, timeout \\ 5000) do
+    {:ok, conn} = Connection.start_link(__MODULE__, {host, port, opts, timeout})
+
+    case build_response(conn, 0, 300) do
+      {:ok, _msg} -> {:ok, conn}
+      error -> error
+    end
+  end
+
   @doc """
   Sends a message to the tcp server.
 

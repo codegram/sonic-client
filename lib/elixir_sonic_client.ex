@@ -20,12 +20,15 @@ defmodule ElixirSonicClient do
       {:ok, #PID<0.202.0>}
   """
   def start(host, port, mode, password) do
-    {:ok, conn} = TcpConnection.start_link(host, port, [])
-    {:ok, _msg} = TcpConnection.recv(conn)
-    :ok = TcpConnection.send(conn, "START #{mode} #{password}")
+    command = "START #{mode} #{password}"
 
-    case TcpConnection.recv(conn) do
-      {:ok, "STARTED " <> _msg} -> {:ok, conn}
+    with {:ok, conn} <- TcpConnection.open(host, port, []) do
+      case TcpConnection.request(conn, command) do
+        {:ok, "STARTED " <> _msg} -> {:ok, conn}
+        error -> error
+      end
+    else
+      error -> error
     end
   end
 
@@ -33,11 +36,12 @@ defmodule ElixirSonicClient do
   Stop connection with Sonic server
   """
   def stop(conn) do
-    with(
-      :ok <- TcpConnection.send(conn, "QUIT"),
-      {:ok, _msg} <- TcpConnection.recv(conn)
-    ) do
+    command = "QUIT"
+
+    with({:ok, _msg} <- TcpConnection.request(conn, command)) do
       TcpConnection.close(conn)
+    else
+      error -> error
     end
   end
 
@@ -49,8 +53,8 @@ defmodule ElixirSonicClient do
       {:ok, "PONG"}
   """
   def ping(conn) do
-    TcpConnection.send(conn, "PING")
-    TcpConnection.recv(conn)
+    command = "PING"
+    TcpConnection.request(conn, command)
   end
 
   def push(conn, collection, object, term) do
