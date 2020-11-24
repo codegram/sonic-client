@@ -41,22 +41,23 @@ defmodule ElixirSonicClient.TcpConnection do
       {:ok, 'CONNECTED <sonic-server v1.3.0>\r\n'}
   """
   def recv(conn, bytes \\ 0, timeout \\ 3000) do
-    {:ok, response} = complete_response(conn, bytes, timeout)
-
-    case String.trim(response) do
-      "ERR " <> reason -> {:error, reason}
-      response -> {:ok, response}
-    end
+    complete_response(conn, bytes, timeout)
   end
 
   defp complete_response(responses \\ [], conn, bytes, timeout) do
     {:ok, response} = Connection.call(conn, {:recv, bytes, timeout})
     response = List.to_string(response)
+    is_finished = String.ends_with?(response, "\r\n")
 
-    if String.ends_with?(response, "\r\n") do
-      {:ok, Enum.reduce(responses, response, &(&1 <> &2))}
-    else
-      complete_response([response | responses], conn, bytes, timeout)
+    case response do
+      "ERR " <> reason ->
+        {:error, String.trim(reason)}
+
+      response when is_finished ->
+        {:ok, Enum.reduce(responses, String.trim(response), &(&1 <> &2))}
+
+      _ ->
+        complete_response([response | responses], conn, bytes, timeout)
     end
   end
 
