@@ -20,6 +20,6 @@ defmodule ElixirSonicClientTest do
         "SecretPassword"
       )
 
-    assert {:ok, Kernel.to_charlist("PONG\r\n")} == ElixirSonicClient.ping(conn)
+    assert {:ok, "PONG"} == ElixirSonicClient.ping(conn)
   end
 end

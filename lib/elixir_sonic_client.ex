@@ -16,9 +16,12 @@ defmodule ElixirSonicClient do
   """
   def start(host, port, mode, password) do
     {:ok, conn} = TcpConnection.start_link(host, port, [])
-    TcpConnection.send(conn, "START #{mode} #{password}")
-    TcpConnection.recv(conn)
-    {:ok, conn}
+    {:ok, _msg} = TcpConnection.recv(conn)
+    :ok = TcpConnection.send(conn, "START #{mode} #{password}")
+
+    case TcpConnection.recv(conn) do
+      {:ok, "STARTED " <> _msg} -> {:ok, conn}
+    end
   end
 
   def ping(conn) do
