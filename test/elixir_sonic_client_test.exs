@@ -55,8 +55,9 @@ defmodule ElixirSonicClientTest do
 
     assert :ok == ElixirSonicClient.push(conn, collection, object, term)
     assert 1 == ElixirSonicClient.count(conn, collection)
+    assert :ok == ElixirSonicClient.flush(conn, collection)
+    assert 0 == ElixirSonicClient.count(conn, collection)
 
-    ElixirSonicClient.flush(conn, collection)
     ElixirSonicClient.stop(conn)
   end
 end
