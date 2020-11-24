@@ -1,10 +1,10 @@
-defmodule ElixirSonicClientTest do
+defmodule SonicClientTest do
   use ExUnit.Case
-  alias ElixirSonicClient.TcpConnection
+  alias SonicClient.TcpConnection
 
   test "start search mode" do
     assert {:ok, conn} =
-             ElixirSonicClient.start(
+             SonicClient.start(
                host(),
                1491,
                "search",
@@ -16,14 +16,14 @@ defmodule ElixirSonicClientTest do
 
   test "ping" do
     {:ok, conn} =
-      ElixirSonicClient.start(
+      SonicClient.start(
         host(),
         1491,
         "search",
         "SecretPassword"
       )
 
-    assert {:ok, "PONG"} == ElixirSonicClient.ping(conn)
+    assert {:ok, "PONG"} == SonicClient.ping(conn)
     TcpConnection.close(conn)
   end
 

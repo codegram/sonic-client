@@ -1,7 +1,8 @@
-defmodule ElixirSonicClient do
+defmodule SonicClient do
   alias ElixirSonicClient.TcpConnection
   alias ElixirSonicClient.Modes.Ingest
   alias ElixirSonicClient.Modes.Control
+  alias SonicClient.TcpConnection
 
   @moduledoc """
   Client for [Sonic search backend](https://github.com/valeriansaliou/sonic)
@@ -11,13 +12,10 @@ defmodule ElixirSonicClient do
   Start Connection with Sonic Server.
 
   ## Examples
-      iex> ElixirSonicClient.start(
-        Kernel.to_charlist("sonic"),
-        1491,
-        "search",
-        "SecretPassword"
-      )
-      {:ok, #PID<0.202.0>}
+
+      iex> SonicClient.start(127.0.0.1, 1491, "search", "secret")
+      {:ok, conn}
+
   """
   def start(host, port, mode, password) do
     {:ok, conn} = TcpConnection.start_link(host, port, [])
@@ -44,9 +42,10 @@ defmodule ElixirSonicClient do
   @doc """
   Send PING message to Sonic server
 
-  ## Examples
-      iex> {:ok, conn} = ElixirSonicClient.ping(conn)
-      {:ok, "PONG"}
+      iex> {:ok, conn} = SonicClient.start(127.0.0.1, 1491, "search")
+      iex> {:ok, conn} = SonicClient.ping(conn)
+      PONG
+
   """
   def ping(conn) do
     TcpConnection.send(conn, "PING")

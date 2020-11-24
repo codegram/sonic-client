@@ -1,6 +1,6 @@
-defmodule ElixirSonicClient.TcpConnectionTest do
+defmodule SonicClient.TcpConnectionTest do
   use ExUnit.Case
-  alias ElixirSonicClient.TcpConnection
+  alias SonicClient.TcpConnection
 
   describe "#start_link" do
     test "Successful connection" do
