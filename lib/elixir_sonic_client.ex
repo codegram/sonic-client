@@ -53,11 +53,19 @@ defmodule ElixirSonicClient do
     TcpConnection.recv(conn)
   end
 
-  defdelegate push(conn, collection, object, term), to: Ingest
+  def push(conn, collection, object, term) do
+    Ingest.push(conn, collection, object, term)
+  end
 
-  defdelegate count(conn, collection), to: Ingest
+  def count(conn, collection) do
+    Ingest.count(conn, collection)
+  end
 
-  defdelegate flush(conn, collection), to: Ingest
+  def flush(conn, collection) do
+    Ingest.flush(conn, collection)
+  end
 
-  defdelegate consolidate(conn), to: Control
+  def consolidate(conn) do
+    Control.consolidate(conn)
+  end
 end
