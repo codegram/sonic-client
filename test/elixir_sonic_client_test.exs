@@ -5,7 +5,7 @@ defmodule ElixirSonicClientTest do
   test "start search mode" do
     assert {:ok, conn} =
              ElixirSonicClient.start(
-               Kernel.to_charlist("sonic"),
+               host(),
                1491,
                "search",
                "SecretPassword"
@@ -17,7 +17,7 @@ defmodule ElixirSonicClientTest do
   test "ping" do
     {:ok, conn} =
       ElixirSonicClient.start(
-        Kernel.to_charlist("sonic"),
+        host(),
         1491,
         "search",
         "SecretPassword"
@@ -46,7 +46,7 @@ defmodule ElixirSonicClientTest do
 
     {:ok, conn} =
       ElixirSonicClient.start(
-        Kernel.to_charlist("sonic"),
+        host(),
         1491,
         "ingest",
         "SecretPassword"
@@ -57,7 +57,7 @@ defmodule ElixirSonicClientTest do
 
     {:ok, conn} =
       ElixirSonicClient.start(
-        Kernel.to_charlist("sonic"),
+        host(),
         1491,
         "control",
         "SecretPassword"
@@ -68,7 +68,7 @@ defmodule ElixirSonicClientTest do
 
     {:ok, conn} =
       ElixirSonicClient.start(
-        Kernel.to_charlist("sonic"),
+        host(),
         1491,
         "ingest",
         "SecretPassword"
@@ -80,7 +80,7 @@ defmodule ElixirSonicClientTest do
 
     {:ok, conn} =
       ElixirSonicClient.start(
-        Kernel.to_charlist("sonic"),
+        host(),
         1491,
         "control",
         "SecretPassword"
@@ -91,7 +91,7 @@ defmodule ElixirSonicClientTest do
 
     {:ok, conn} =
       ElixirSonicClient.start(
-        Kernel.to_charlist("sonic"),
+        host(),
         1491,
         "ingest",
         "SecretPassword"
@@ -99,5 +99,9 @@ defmodule ElixirSonicClientTest do
 
     assert 0 == ElixirSonicClient.count(conn, collection)
     ElixirSonicClient.stop(conn)
+  end
+
+  defp host do
+    Kernel.to_charlist(System.get_env("SONIC_HOST", "sonic"))
   end
 end
