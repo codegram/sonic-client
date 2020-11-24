@@ -15,7 +15,9 @@ defmodule ElixirSonicClient.TcpConnection do
       {:ok, #PID<0.198.0>}
   """
   def start_link(host, port, opts, timeout \\ 5000) do
-    Connection.start_link(__MODULE__, {host, port, opts, timeout})
+    result = Connection.start_link(__MODULE__, {host, port, opts, timeout})
+    result |> inspect() |> IO.puts()
+    result
   end
 
   @doc """
@@ -28,7 +30,11 @@ defmodule ElixirSonicClient.TcpConnection do
       iex> ElixirSonicClient.TcpConnection.send(conn, "start search password")
       :ok
   """
-  def send(conn, data), do: Connection.call(conn, {:send, data <> "\n"})
+  def send(conn, data) do
+    result = Connection.call(conn, {:send, data <> "\n"})
+    result |> inspect() |> IO.puts()
+    result
+  end
 
   @doc """
   Receives message from the tcp server.

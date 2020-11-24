@@ -16,17 +16,19 @@ defmodule ElixirSonicClient do
   """
   def start(host, port, mode, password) do
     {:ok, conn} = TcpConnection.start_link(host, port, [])
+    IO.puts("--Before send")
     TcpConnection.send(conn, "START #{mode} #{password}")
-    TcpConnection.recv(conn)
+    IO.puts("--After send")
+    received = TcpConnection.recv(conn)
+    received |> inspect |> IO.puts()
     {:ok, conn}
   end
 
   def ping(conn) do
-    TcpConnection.send(conn, "PING")
-    TcpConnection.recv(conn)
-  end
-
-  def ping do
-    :pong
+    send_result = TcpConnection.send(conn, "PING")
+    send_result |> inspect() |> IO.puts()
+    recv_result = TcpConnection.recv(conn)
+    recv_result |> inspect() |> IO.puts()
+    recv_result
   end
 end
