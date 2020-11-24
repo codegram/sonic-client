@@ -9,10 +9,13 @@ defmodule ElixirSonicClient do
   Start Connection with Sonic Server.
 
   ## Examples
-
-      iex> ElixirSonicClient.start(127.0.0.1, 1491, "search", "secret")
-      {:ok, conn}
-
+      iex> ElixirSonicClient.start(
+        Kernel.to_charlist("sonic"),
+        1491,
+        "search",
+        "SecretPassword"
+      )
+      {:ok, #PID<0.202.0>}
   """
   def start(host, port, mode, password) do
     {:ok, conn} = TcpConnection.start_link(host, port, [])
@@ -25,14 +28,18 @@ defmodule ElixirSonicClient do
   end
 
   @doc """
-  Start Connection with Sonic Server.
+  Stop connection with Sonic server
+  """
+  def stop(conn) do
+    TcpConnection.close(conn)
+  end
+
+  @doc """
+  Send PING message to Sonic server
 
   ## Examples
-
-      iex> {:ok, conn} = ElixirSonicClient.start(127.0.0.1, 1491, "search")
       iex> {:ok, conn} = ElixirSonicClient.ping(conn)
-      PONG
-
+      {:ok, "PONG"}
   """
   def ping(conn) do
     TcpConnection.send(conn, "PING")
