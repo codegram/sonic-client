@@ -17,6 +17,8 @@ services:
     image: valeriansaliou/sonic:v1.3.0
     expose:
       - "1491"
+    ports:
+      - "1491:1491"
     volumes:
       - ../priv/sonic/sonic.cfg:/etc/sonic.cfg
       - sonic:/var/lib/sonic/store
