@@ -1,4 +1,5 @@
 # ElixirSonicClient
+![CI](https://github.com/codegram/elixir-sonic-client/workflows/CI/badge.svg)
 
 Sonic Client for Elixir
 
