@@ -10,7 +10,7 @@ defmodule ElixirSonicClient do
 
   ## Examples
 
-      iex> ElixirSonicClient.start(127.0.0.1, 1491, "search")
+      iex> ElixirSonicClient.start(127.0.0.1, 1491, "search", "secret")
       {:ok, conn}
 
   """

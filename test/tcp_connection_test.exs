@@ -29,7 +29,7 @@ defmodule ElixirSonicClient.TcpConnectionTest do
     test "send invalid command" do
       conn = connection()
       assert :ok = TcpConnection.send(conn, "invalid command")
-      assert {:error, "unknown_command"} = TcpConnection.recv(conn)
+      assert {:error, _} = TcpConnection.recv(conn)
       TcpConnection.close(conn)
     end
   end

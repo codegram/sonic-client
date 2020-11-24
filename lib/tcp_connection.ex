@@ -46,15 +46,15 @@ defmodule ElixirSonicClient.TcpConnection do
 
   defp complete_response(responses \\ [], conn, bytes, timeout) do
     {:ok, response} = Connection.call(conn, {:recv, bytes, timeout})
-    response = List.to_string(response)
+    response = Kernel.to_string(response)
     is_finished = String.ends_with?(response, "\r\n")
 
-    case response do
-      "ERR " <> reason ->
-        {:error, String.trim(reason)}
+    case String.trim(response) do
+      "ERR" <> reason ->
+        {:error, reason}
 
       response when is_finished ->
-        {:ok, Enum.reduce(responses, String.trim(response), &(&1 <> &2))}
+        {:ok, Enum.reduce(responses, response, &(&1 <> &2))}
 
       _ ->
         complete_response([response | responses], conn, bytes, timeout)
