@@ -7,6 +7,7 @@ defmodule ElixirSonicClient.TcpConnectionTest do
       assert {:ok, conn} = TcpConnection.start_link(Kernel.to_charlist("sonic"), 1491, [])
       assert {:ok, message} = TcpConnection.recv(conn)
       assert "CONNECTED" <> _ = message
+      TcpConnection.close(conn)
     end
   end
 
@@ -14,6 +15,7 @@ defmodule ElixirSonicClient.TcpConnectionTest do
     test "send start search message" do
       {:ok, conn} = TcpConnection.start_link(Kernel.to_charlist("sonic"), 1491, [])
       assert :ok = TcpConnection.send(conn, "START search SecretPassword")
+      TcpConnection.close(conn)
     end
 
     test "send invalid mode" do
@@ -21,12 +23,14 @@ defmodule ElixirSonicClient.TcpConnectionTest do
       TcpConnection.recv(conn)
       assert :ok = TcpConnection.send(conn, "START invalid SecretPassword")
       assert {:ok, "ENDED invalid_mode"} = TcpConnection.recv(conn)
+      TcpConnection.close(conn)
     end
 
     test "send invalid command" do
       conn = connection()
       assert :ok = TcpConnection.send(conn, "invalid command")
       assert {:error, "unknown_command"} = TcpConnection.recv(conn)
+      TcpConnection.close(conn)
     end
   end
 
