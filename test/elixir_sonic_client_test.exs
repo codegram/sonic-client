@@ -22,14 +22,4 @@ defmodule ElixirSonicClientTest do
 
     assert {:ok, Kernel.to_charlist("PONG\r\n")} == ElixirSonicClient.ping(conn)
   end
-
-  test "pings Sonic" do
-    result = Pinger.ping()
-
-    result
-    |> inspect
-    |> IO.puts()
-
-    # IO.puts(inspect(result))
-  end
 end
