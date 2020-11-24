@@ -49,9 +49,9 @@ defmodule ElixirSonicClientTest do
         "SecretPassword"
       )
 
-    collection = "messages"
-    object = "some:object"
-    term = "Some text in it"
+    collection = "some_collection"
+    object = "some_object"
+    term = "The term."
 
     assert :ok == ElixirSonicClient.push(conn, collection, object, term)
     IO.inspect(ElixirSonicClient.count(conn, collection))

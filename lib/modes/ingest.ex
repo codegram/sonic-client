@@ -1,7 +1,7 @@
 defmodule ElixirSonicClient.Modes.Ingest do
   alias ElixirSonicClient.TcpConnection
 
-  @default_bucket_name "default:bucket"
+  @default_bucket_name "default_bucket"
 
   def push(conn, collection, object, term) do
     TcpConnection.send(
@@ -37,5 +37,19 @@ defmodule ElixirSonicClient.Modes.Ingest do
   end
 
   def flush(conn, collection) do
+    TcpConnection.send(
+      conn,
+      "FLUSHC #{collection}"
+    )
+
+    response = TcpConnection.recv(conn)
+
+    case response do
+      {:ok, "RESULT " <> _num_str} ->
+        :ok
+
+      _ ->
+        response
+    end
   end
 end
