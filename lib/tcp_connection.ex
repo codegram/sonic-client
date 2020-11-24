@@ -31,7 +31,7 @@ defmodule ElixirSonicClient.TcpConnection do
       :ok
   """
   def send(conn, data) do
-    IO.puts("Sending \"#{data}\"")
+    # IO.puts("Sending \"#{data}\"")
     Connection.call(conn, {:send, data <> "\n"})
   end
 
@@ -48,9 +48,10 @@ defmodule ElixirSonicClient.TcpConnection do
   def recv(conn, bytes \\ 0, timeout \\ 3000) do
     response = complete_response(conn, bytes, timeout)
 
-    case response do
-      {:ok, msg} -> IO.puts("Received \"#{msg}\"")
-    end
+    # if match?({:ok, _}, response) do
+    #   {:ok, msg} = response
+    #   IO.puts("Received \"#{msg}\"")
+    # end
 
     response
   end

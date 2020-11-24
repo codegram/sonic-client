@@ -1,6 +1,7 @@
 defmodule ElixirSonicClient do
   alias ElixirSonicClient.TcpConnection
   alias ElixirSonicClient.Modes.Ingest
+  alias ElixirSonicClient.Modes.Control
 
   @moduledoc """
   Client for [Sonic search backend](https://github.com/valeriansaliou/sonic)
@@ -57,4 +58,6 @@ defmodule ElixirSonicClient do
   defdelegate count(conn, collection), to: Ingest
 
   defdelegate flush(conn, collection), to: Ingest
+
+  defdelegate consolidate(conn), to: Control
 end

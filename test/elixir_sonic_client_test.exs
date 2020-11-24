@@ -39,8 +39,11 @@ defmodule ElixirSonicClientTest do
     ElixirSonicClient.stop(conn)
   end
 
-  @tag :wip
   test "add data to the index" do
+    collection = "some_collection"
+    object = "some_object"
+    term = "The term."
+
     {:ok, conn} =
       ElixirSonicClient.start(
         Kernel.to_charlist("sonic"),
@@ -49,16 +52,52 @@ defmodule ElixirSonicClientTest do
         "SecretPassword"
       )
 
-    collection = "some_collection"
-    object = "some_object"
-    term = "The term."
-
     assert :ok == ElixirSonicClient.push(conn, collection, object, term)
-    IO.inspect(ElixirSonicClient.count(conn, collection))
+    ElixirSonicClient.stop(conn)
+
+    {:ok, conn} =
+      ElixirSonicClient.start(
+        Kernel.to_charlist("sonic"),
+        1491,
+        "control",
+        "SecretPassword"
+      )
+
+    assert :ok == ElixirSonicClient.consolidate(conn)
+    ElixirSonicClient.stop(conn)
+
+    {:ok, conn} =
+      ElixirSonicClient.start(
+        Kernel.to_charlist("sonic"),
+        1491,
+        "ingest",
+        "SecretPassword"
+      )
+
     assert 1 == ElixirSonicClient.count(conn, collection)
     assert :ok == ElixirSonicClient.flush(conn, collection)
-    assert 0 == ElixirSonicClient.count(conn, collection)
+    ElixirSonicClient.stop(conn)
 
+    {:ok, conn} =
+      ElixirSonicClient.start(
+        Kernel.to_charlist("sonic"),
+        1491,
+        "control",
+        "SecretPassword"
+      )
+
+    assert :ok == ElixirSonicClient.consolidate(conn)
+    ElixirSonicClient.stop(conn)
+
+    {:ok, conn} =
+      ElixirSonicClient.start(
+        Kernel.to_charlist("sonic"),
+        1491,
+        "ingest",
+        "SecretPassword"
+      )
+
+    assert 0 == ElixirSonicClient.count(conn, collection)
     ElixirSonicClient.stop(conn)
   end
 end
