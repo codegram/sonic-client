@@ -3,6 +3,8 @@ defmodule ElixirSonicClient.TcpConnection do
   This is the TcpConnection module, responsible to send and receive calls.
   """
 
+  alias __MODULE__
+
   use Connection
 
   @spec start_link(any, any, any, any) :: :ignore | {:error, any} | {:ok, pid}
@@ -30,9 +32,9 @@ defmodule ElixirSonicClient.TcpConnection do
       iex> ElixirSonicClient.TcpConnection.send(conn, "start search password")
       :ok
   """
-  def send(conn, data) do
+  def send(conn, command) do
     # IO.puts("Sending \"#{data}\"")
-    Connection.call(conn, {:send, data <> "\n"})
+    Connection.call(conn, {:send, command <> "\n"})
   end
 
   @doc """
@@ -46,7 +48,7 @@ defmodule ElixirSonicClient.TcpConnection do
       {:ok, 'CONNECTED <sonic-server v1.3.0>\r\n'}
   """
   def recv(conn, bytes \\ 0, timeout \\ 3000) do
-    response = complete_response(conn, bytes, timeout)
+    response = build_response(conn, bytes, timeout)
 
     # if match?({:ok, _}, response) do
     #   {:ok, msg} = response
@@ -56,30 +58,39 @@ defmodule ElixirSonicClient.TcpConnection do
     response
   end
 
-  defp complete_response(responses \\ [], conn, bytes, timeout) do
-    {:ok, response} = Connection.call(conn, {:recv, bytes, timeout})
-    response = Kernel.to_string(response)
-    is_finished = String.ends_with?(response, "\r\n")
+  defp build_response(partial_responses \\ [], conn, bytes, timeout) do
+    {:ok, received_bytes} = Connection.call(conn, {:recv, bytes, timeout})
+    partial_response = Kernel.to_string(received_bytes)
+    is_finished = String.ends_with?(partial_response, "\r\n")
 
-    case String.trim(response) do
+    case String.trim(partial_response) do
       "ERR" <> reason ->
         {:error, reason}
 
       response when is_finished ->
-        {:ok, Enum.reduce(responses, response, &(&1 <> &2))}
+        {:ok, Enum.reduce(partial_responses, response, &(&1 <> &2))}
 
       _ ->
-        complete_response([response | responses], conn, bytes, timeout)
+        build_response([partial_response | partial_responses], conn, bytes, timeout)
+    end
+  end
+
+  def request(conn, command) do
+    case TcpConnection.send(conn, command) do
+      :ok -> TcpConnection.recv(conn)
+      error -> error
     end
   end
 
   def close(conn), do: Connection.call(conn, :close)
 
+  @impl true
   def init({host, port, opts, timeout}) do
     s = %{host: host, port: port, opts: opts, timeout: timeout, sock: nil}
     {:connect, :init, s}
   end
 
+  @impl true
   def connect(
         _,
         %{sock: nil, host: host, port: port, opts: opts, timeout: timeout} = s
@@ -93,6 +104,7 @@ defmodule ElixirSonicClient.TcpConnection do
     end
   end
 
+  @impl true
   def disconnect(info, %{sock: sock} = s) do
     :ok = :gen_tcp.close(sock)
 
@@ -111,6 +123,7 @@ defmodule ElixirSonicClient.TcpConnection do
     {:connect, :reconnect, %{s | sock: nil}}
   end
 
+  @impl true
   def handle_call(_, _, %{sock: nil} = s) do
     {:reply, {:error, :closed}, s}
   end
