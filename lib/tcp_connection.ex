@@ -2,7 +2,6 @@ defmodule ElixirSonicClient.TcpConnection do
   @moduledoc """
   This is the TcpConnection module, responsible to send and receive calls.
   """
-  alias __MODULE__
 
   use Connection
 
@@ -64,14 +63,7 @@ defmodule ElixirSonicClient.TcpConnection do
     end
   end
 
-  def close(conn) do
-    # Connection.call(conn, :close)
-    send_response = TcpConnection.send(conn, "QUIT")
-    send_response |> inspect() |> IO.puts()
-    recv_response = recv(conn)
-    recv_response |> inspect() |> IO.puts()
-    recv_response
-  end
+  def close(conn), do: Connection.call(conn, :close)
 
   def init({host, port, opts, timeout}) do
     s = %{host: host, port: port, opts: opts, timeout: timeout, sock: nil}

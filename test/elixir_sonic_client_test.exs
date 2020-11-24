@@ -26,4 +26,17 @@ defmodule ElixirSonicClientTest do
     assert {:ok, "PONG"} == ElixirSonicClient.ping(conn)
     TcpConnection.close(conn)
   end
+
+  @tag :wip
+  test "stop" do
+    {:ok, conn} =
+      ElixirSonicClient.start(
+        Kernel.to_charlist("sonic"),
+        1491,
+        "search",
+        "SecretPassword"
+      )
+
+    inspect(ElixirSonicClient.stop(conn))
+  end
 end

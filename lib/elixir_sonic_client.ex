@@ -31,7 +31,12 @@ defmodule ElixirSonicClient do
   Stop connection with Sonic server
   """
   def stop(conn) do
-    TcpConnection.close(conn)
+    with(
+      :ok <- TcpConnection.send(conn, "QUIT"),
+      {:ok, _msg} <- TcpConnection.recv(conn)
+    ) do
+      TcpConnection.close(conn)
+    end
   end
 
   @doc """
