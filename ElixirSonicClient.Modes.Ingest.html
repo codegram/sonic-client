@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.23.0">
     <meta name="project" content="elixir_sonic_client v0.1.0">
-    <title>ElixirSonicClient — elixir_sonic_client v0.1.0</title>
+    <title>ElixirSonicClient.Modes.Ingest — elixir_sonic_client v0.1.0</title>
     <link rel="stylesheet" href="dist/elixir-9f91ebe876dc01d67920.css" />
     <script src="dist/sidebar_items-273fcf5335.js"></script>
       <script src="docs_config.js"></script>
@@ -63,12 +63,10 @@ elixir_sonic_client      </a>
     <div id="content" class="content-inner">
 
       <h1>
-        ElixirSonicClient <small class="app-vsn">(elixir_sonic_client v0.1.0)</small>
+        ElixirSonicClient.Modes.Ingest <small class="app-vsn">(elixir_sonic_client v0.1.0)</small>
       </h1>
 
 
-        <section id="moduledoc">
-<p>Client for <a href="https://github.com/valeriansaliou/sonic">Sonic search backend</a></p>        </section>
 
         <section id="summary" class="details-list">
           <h1 class="section-heading">
@@ -84,11 +82,6 @@ elixir_sonic_client      </a>
     </h2>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#consolidate/1">consolidate(conn)</a>
-  </div>
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
     <a href="#count/2">count(conn, collection)</a>
   </div>
 </div>
@@ -99,26 +92,8 @@ elixir_sonic_client      </a>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#ping/1">ping(conn)</a>
-  </div>
-    <div class="summary-synopsis"><p>Send PING message to Sonic server</p></div>
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
     <a href="#push/4">push(conn, collection, object, term)</a>
   </div>
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#start/4">start(host, port, mode, password)</a>
-  </div>
-    <div class="summary-synopsis"><p>Start Connection with Sonic Server.</p></div>
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#stop/1">stop(conn)</a>
-  </div>
-    <div class="summary-synopsis"><p>Stop connection with Sonic server</p></div>
 </div>
   </div>
         </section>
@@ -131,19 +106,6 @@ elixir_sonic_client      </a>
             </a>
 Functions          </h1>
           <div class="functions-list">
-<section class="detail" id="consolidate/1">
-  <div class="detail-header">
-    <a href="#consolidate/1" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature">consolidate(conn)</h1>
-  </div>
-
-  <section class="docstring">
-
-  </section>
-</section>
 <section class="detail" id="count/2">
   <div class="detail-header">
     <a href="#count/2" class="detail-link" title="Link to this function">
@@ -170,24 +132,6 @@ Functions          </h1>
 
   </section>
 </section>
-<section class="detail" id="ping/1">
-  <div class="detail-header">
-    <a href="#ping/1" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature">ping(conn)</h1>
-  </div>
-
-  <section class="docstring">
-
-<p>Send PING message to Sonic server</p><h2 id="ping/1-examples" class="section-heading">
-  <a href="#ping/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
-  Examples
-</h2>
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="3894889193-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">conn</span><span class="p" data-group-id="3894889193-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ElixirSonicClient</span><span class="o">.</span><span class="n">ping</span><span class="p" data-group-id="3894889193-2">(</span><span class="n">conn</span><span class="p" data-group-id="3894889193-2">)</span><span class="w">
-</span><span class="p" data-group-id="3894889193-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PONG&quot;</span><span class="p" data-group-id="3894889193-3">}</span></code></pre>  </section>
-</section>
 <section class="detail" id="push/4">
   <div class="detail-header">
     <a href="#push/4" class="detail-link" title="Link to this function">
@@ -200,42 +144,6 @@ Functions          </h1>
   <section class="docstring">
 
   </section>
-</section>
-<section class="detail" id="start/4">
-  <div class="detail-header">
-    <a href="#start/4" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature">start(host, port, mode, password)</h1>
-  </div>
-
-  <section class="docstring">
-
-<p>Start Connection with Sonic Server.</p><h2 id="start/4-examples" class="section-heading">
-  <a href="#start/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
-  Examples
-</h2>
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">ElixirSonicClient</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="5105014435-1">(</span><span class="w">
-  </span><span class="nc">Kernel</span><span class="o">.</span><span class="n">to_charlist</span><span class="p" data-group-id="5105014435-2">(</span><span class="s">&quot;sonic&quot;</span><span class="p" data-group-id="5105014435-2">)</span><span class="p">,</span><span class="w">
-  </span><span class="mi">1491</span><span class="p">,</span><span class="w">
-  </span><span class="s">&quot;search&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="s">&quot;SecretPassword&quot;</span><span class="w">
-</span><span class="p" data-group-id="5105014435-1">)</span><span class="w">
-</span><span class="p" data-group-id="5105014435-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5105014435-4">#</span><span class="nc" data-group-id="5105014435-4">PID</span><span class="p" data-group-id="5105014435-4">&lt;</span><span class="mi">0</span><span class="o">.</span><span class="mi">202</span><span class="o">.</span><span class="mi">0</span><span class="p" data-group-id="5105014435-4">&gt;</span><span class="p" data-group-id="5105014435-3">}</span></code></pre>  </section>
-</section>
-<section class="detail" id="stop/1">
-  <div class="detail-header">
-    <a href="#stop/1" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature">stop(conn)</h1>
-  </div>
-
-  <section class="docstring">
-
-<p>Stop connection with Sonic server</p>  </section>
 </section>
           </div>
         </section>

@@ -1,4 +1,6 @@
 404.html
+ElixirSonicClient.Modes.Control.html
+ElixirSonicClient.Modes.Ingest.html
 ElixirSonicClient.TcpConnection.html
 ElixirSonicClient.html
 api-reference.html
@@ -8,7 +10,7 @@ dist/html/fonts/icomoon.eot
 dist/html/fonts/icomoon.svg
 dist/html/fonts/icomoon.ttf
 dist/html/fonts/icomoon.woff
-dist/search_items-6a76685be7.js
-dist/sidebar_items-ec46617a4f.js
+dist/search_items-f05e1dbad4.js
+dist/sidebar_items-273fcf5335.js
 index.html
 search.html
