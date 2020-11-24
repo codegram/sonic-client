@@ -13,12 +13,27 @@ defmodule ElixirSonicClient.Modes.Ingest do
 
     case response do
       {:ok, "OK"} -> :ok
-      {:error, msg} -> {:error, msg}
+      _ -> response
     end
   end
 
-  @spec count(any, any) :: nil
   def count(conn, collection) do
+    TcpConnection.send(
+      conn,
+      "COUNT #{collection}"
+    )
+
+    response = TcpConnection.recv(conn)
+
+    case response do
+      {:ok, "RESULT " <> num_str} ->
+        case Integer.parse(num_str) do
+          {num, _} -> num
+        end
+
+      _ ->
+        response
+    end
   end
 
   def flush(conn, collection) do

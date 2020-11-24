@@ -50,10 +50,11 @@ defmodule ElixirSonicClientTest do
       )
 
     collection = "messages"
-    object = "the-object-it-belongs-to"
+    object = "some:object"
     term = "Some text in it"
 
     assert :ok == ElixirSonicClient.push(conn, collection, object, term)
+    IO.inspect(ElixirSonicClient.count(conn, collection))
     assert 1 == ElixirSonicClient.count(conn, collection)
     assert :ok == ElixirSonicClient.flush(conn, collection)
     assert 0 == ElixirSonicClient.count(conn, collection)
