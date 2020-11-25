@@ -1,10 +1,8 @@
 defmodule SonicClient.Modes.Ingest do
   alias SonicClient.TcpConnection
 
-  @default_bucket_name "default_bucket"
-
-  def push(conn, collection, object, term) do
-    command = ~s(PUSH #{collection} #{@default_bucket_name} #{object} "#{term}")
+  def push(conn, collection, bucket, object, term) do
+    command = ~s(PUSH #{collection} #{bucket} #{object} "#{term}")
 
     case TcpConnection.request(conn, command) do
       {:ok, "OK"} -> :ok
