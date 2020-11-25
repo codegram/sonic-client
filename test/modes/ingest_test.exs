@@ -8,6 +8,7 @@ defmodule SonicClient.Modes.IngestTest do
   @bucket_name_0 "some_bucket_name"
   @bucket_name_1 "some_other_bucket_name"
   @object_reference_0 "some_object"
+  @object_reference_1 "some_other"
   @term "Some term to be searched."
 
   @tag :wip
@@ -51,16 +52,16 @@ defmodule SonicClient.Modes.IngestTest do
                  @collection_0,
                  @bucket_name_0,
                  @object_reference_0,
-                 "Term 1"
+                 "To be, or not to be, that is the question."
                )
 
       assert :ok ==
                Ingest.push(
                  ingest_conn,
                  @collection_0,
-                 @bucket_name_0,
+                 @bucket_name_1,
                  @object_reference_0,
-                 "Term 2"
+                 "Whether it is nobler in the mind to suffer"
                )
 
       assert :ok ==
@@ -69,7 +70,7 @@ defmodule SonicClient.Modes.IngestTest do
                  @collection_1,
                  @bucket_name_0,
                  @object_reference_0,
-                 "Term 3"
+                 "The slings and arrows of outrageous fortune,"
                )
 
       assert :ok == Control.consolidate(control_conn)

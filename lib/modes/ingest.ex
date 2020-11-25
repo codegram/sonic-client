@@ -2,7 +2,16 @@ defmodule SonicClient.Modes.Ingest do
   alias SonicClient.TcpConnection
 
   def push(conn, collection, bucket, object, term) do
-    command = ~s(PUSH #{collection} #{bucket} #{object} "#{term}")
+    command = ~s'PUSH #{collection} #{bucket} #{object} "#{term}"'
+
+    case TcpConnection.request(conn, command) do
+      {:ok, "OK"} -> :ok
+      error -> error
+    end
+  end
+
+  def push(conn, collection, bucket, object, term, locale) do
+    command = ~s'PUSH #{collection} #{bucket} #{object} "#{term}" LANG(#{locale})'
 
     case TcpConnection.request(conn, command) do
       {:ok, "OK"} -> :ok
