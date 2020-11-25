@@ -8,7 +8,7 @@
     <meta name="project" content="sonic_client v0.1.0">
     <title>SonicClient.TcpConnection — sonic_client v0.1.0</title>
     <link rel="stylesheet" href="dist/elixir-9f91ebe876dc01d67920.css" />
-    <script src="dist/sidebar_items-9f27873ad8.js"></script>
+    <script src="dist/sidebar_items-8c3f445ec5.js"></script>
       <script src="docs_config.js"></script>
     <script async src="dist/app-60a0c9f10e9e52eae31f.js"></script>
   </head>
@@ -89,21 +89,15 @@ sonic_client      </a>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#recv/3">recv(conn, bytes \\ 0, timeout \\ 3000)</a>
+    <a href="#open/4">open(host, port, opts \\ [], timeout \\ 5000)</a>
   </div>
-    <div class="summary-synopsis"><p>Receives message from the tcp server.</p></div>
+    <div class="summary-synopsis"><p>Starts connection with the Sonic server as a child process.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#send/2">send(conn, data)</a>
+    <a href="#request/2">request(conn, command)</a>
   </div>
-    <div class="summary-synopsis"><p>Sends a message to the tcp server.</p></div>
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#start_link/4">start_link(host, port, opts, timeout \\ 5000)</a>
-  </div>
-    <div class="summary-synopsis"><p>Starts connection with the tcp server.</p></div>
+    <div class="summary-synopsis"><p>Sends a synchronous request with command <code class="inline">command</code> to the Sonic server through the PID child.</p></div>
 </div>
   </div>
         </section>
@@ -129,67 +123,46 @@ Functions          </h1>
 
   </section>
 </section>
-<section class="detail" id="recv/3">
-    <span id="recv/1"></span>
-    <span id="recv/2"></span>
+<section class="detail" id="open/4">
+    <span id="open/2"></span>
+    <span id="open/3"></span>
   <div class="detail-header">
-    <a href="#recv/3" class="detail-link" title="Link to this function">
+    <a href="#open/4" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">recv(conn, bytes \\ 0, timeout \\ 3000)</h1>
-  </div>
-
-  <section class="docstring">
-
-<p>Receives message from the tcp server.</p><p>Returns <code class="inline">{:ok, response}</code>.</p><h2 id="recv/3-examples" class="section-heading">
-  <a href="#recv/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
-  Examples
-</h2>
-<pre><code class="nohighlight makeup elixir"><span class="o">.</span><span class="nc">TcpConnection</span><span class="o">.</span><span class="n">recv</span><span class="p" data-group-id="6391415334-1">(</span><span class="n">conn</span><span class="p" data-group-id="6391415334-1">)</span><span class="w">
-</span><span class="err">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">CONNECTED</span><span class="w"> </span><span class="o">&lt;</span><span class="n">sonic</span><span class="o">-</span><span class="n">server</span><span class="w"> </span><span class="n">v1</span><span class="o">.</span><span class="mf">3.0</span><span class="o">&gt;</span></code></pre><p>'}</p>  </section>
-</section>
-<section class="detail" id="send/2">
-  <div class="detail-header">
-    <a href="#send/2" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature">send(conn, data)</h1>
-  </div>
-
-  <section class="docstring">
-
-<p>Sends a message to the tcp server.</p><p>Returns <code class="inline">:ok</code>.</p><h2 id="send/2-examples" class="section-heading">
-  <a href="#send/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
-  Examples
-</h2>
-<pre><code class="nohighlight makeup elixir"><span class="o">.</span><span class="nc">TcpConnection</span><span class="o">.</span><span class="n">send</span><span class="p" data-group-id="0534644947-1">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;start search password&quot;</span><span class="p" data-group-id="0534644947-1">)</span><span class="w">
-</span><span class="ss">:ok</span></code></pre>  </section>
-</section>
-<section class="detail" id="start_link/4">
-    <span id="start_link/3"></span>
-  <div class="detail-header">
-    <a href="#start_link/4" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature">start_link(host, port, opts, timeout \\ 5000)</h1>
+    <h1 class="signature">open(host, port, opts \\ [], timeout \\ 5000)</h1>
   </div>
 
   <section class="docstring">
       <h2>Specs</h2>
       <div class="specs">
-          <pre>start_link(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) ::
-  :ignore | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()} | {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()}</pre>
+          <pre>open(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()) :: {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()} | {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()}</pre>
       </div>
 
-<p>Starts connection with the tcp server.</p><p>Returns <code class="inline">{:ok, conn}</code>.</p><h2 id="start_link/4-examples" class="section-heading">
-  <a href="#start_link/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+<p>Starts connection with the Sonic server as a child process.</p><p>Returns <code class="inline">{:ok, conn}</code>.</p><p>Where <code class="inline">conn</code> is the PID of the client.</p><h2 id="open/4-examples" class="section-heading">
+  <a href="#open/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Examples
 </h2>
-<pre><code class="nohighlight makeup elixir"><span class="nc">SonicClient.TcpConnection</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="8789302138-1">(</span><span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mi">1491</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8789302138-2">[</span><span class="p" data-group-id="8789302138-2">]</span><span class="p" data-group-id="8789302138-1">)</span><span class="w">
-</span><span class="p" data-group-id="8789302138-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8789302138-4">#</span><span class="nc" data-group-id="8789302138-4">PID</span><span class="p" data-group-id="8789302138-4">&lt;</span><span class="mi">0</span><span class="o">.</span><span class="mi">198</span><span class="o">.</span><span class="mi">0</span><span class="p" data-group-id="8789302138-4">&gt;</span><span class="p" data-group-id="8789302138-3">}</span></code></pre>  </section>
+<pre><code class="nohighlight makeup elixir"><span class="nc">SonicClient.TcpConnection</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="7457798234-1">(</span><span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mi">1491</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7457798234-2">[</span><span class="p" data-group-id="7457798234-2">]</span><span class="p" data-group-id="7457798234-1">)</span><span class="w">
+</span><span class="p" data-group-id="7457798234-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7457798234-4">#</span><span class="nc" data-group-id="7457798234-4">PID</span><span class="p" data-group-id="7457798234-4">&lt;</span><span class="mi">0</span><span class="o">.</span><span class="mi">198</span><span class="o">.</span><span class="mi">0</span><span class="p" data-group-id="7457798234-4">&gt;</span><span class="p" data-group-id="7457798234-3">}</span></code></pre>  </section>
+</section>
+<section class="detail" id="request/2">
+  <div class="detail-header">
+    <a href="#request/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">request(conn, command)</h1>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>request(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: {:ok, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
+      </div>
+
+<p>Sends a synchronous request with command <code class="inline">command</code> to the Sonic server through the PID child.</p><p>Returns <code class="inline">{:ok, response}</code>.</p><p>Where response is a String with the body of the response.</p>  </section>
 </section>
           </div>
         </section>
