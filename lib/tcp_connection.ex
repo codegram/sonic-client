@@ -34,6 +34,7 @@ defmodule SonicClient.TcpConnection do
 
   Where response is a String with the body of the response.
   """
+
   @spec request(pid(), String.t()) :: {:ok, String.t()} | {:error, any()}
   def request(conn, command) do
     case send_message(conn, command) do
@@ -55,14 +56,14 @@ defmodule SonicClient.TcpConnection do
   defp build_response(partial_responses \\ [], conn, bytes, timeout) do
     {:ok, received_bytes} = Connection.call(conn, {:recv, bytes, timeout})
     partial_response = Kernel.to_string(received_bytes)
-    is_finished = String.ends_with?(partial_response, "\r\n")
+    is_final = String.ends_with?(partial_response, "\r\n")
 
-    case String.trim(partial_response) do
+    case partial_response do
       "ERR" <> reason ->
         {:error, reason}
 
-      response when is_finished ->
-        {:ok, Enum.reduce(partial_responses, response, &(&1 <> &2))}
+      final_partial_response when is_final ->
+        {:ok, String.trim(Enum.reduce(partial_responses, final_partial_response, &(&1 <> &2)))}
 
       _ ->
         build_response([partial_response | partial_responses], conn, bytes, timeout)
