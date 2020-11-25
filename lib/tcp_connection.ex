@@ -43,6 +43,18 @@ defmodule SonicClient.TcpConnection do
     end
   end
 
+  def search_request(conn, command) do
+    with(
+      {:ok, "PENDING " <> marker} <- send_message(conn, command),
+      {:ok, "EVENT " <> result} <- receive_message(conn)
+    ) do
+      {:ok, String.trim_leading(result, "#{marker}")}
+    else
+      nil -> {:error, :invalid_options}
+      reason -> {:error, reason}
+    end
+  end
+
   def close(conn), do: Connection.call(conn, :close)
 
   defp send_message(conn, message) do
