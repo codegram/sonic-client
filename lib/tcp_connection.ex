@@ -46,14 +46,7 @@ defmodule SonicClient.TcpConnection do
       {:ok, 'CONNECTED <sonic-server v1.3.0>\r\n'}
   """
   def recv(conn, bytes \\ 0, timeout \\ 3000) do
-    response = complete_response(conn, bytes, timeout)
-
-    # if match?({:ok, _}, response) do
-    #   {:ok, msg} = response
-    #   IO.puts("Received \"#{msg}\"")
-    # end
-
-    response
+    complete_response(conn, bytes, timeout)
   end
 
   defp complete_response(responses \\ [], conn, bytes, timeout) do
@@ -61,12 +54,12 @@ defmodule SonicClient.TcpConnection do
     response = Kernel.to_string(response)
     is_finished = String.ends_with?(response, "\r\n")
 
-    case String.trim(response) do
+    case response do
       "ERR" <> reason ->
         {:error, reason}
 
       response when is_finished ->
-        {:ok, Enum.reduce(responses, response, &(&1 <> &2))}
+        {:ok, String.trim(Enum.reduce(responses, response, &(&1 <> &2)))}
 
       _ ->
         complete_response([response | responses], conn, bytes, timeout)
