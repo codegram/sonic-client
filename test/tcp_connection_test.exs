@@ -4,43 +4,41 @@ defmodule SonicClient.TcpConnectionTest do
 
   describe "#start_link" do
     test "Successful connection" do
-      assert {:ok, conn} = TcpConnection.start_link(host(), 1491, [])
-      assert {:ok, message} = TcpConnection.recv(conn)
-      assert "CONNECTED" <> _ = message
+      {:ok, conn} = TcpConnection.open(host(), 1491)
       TcpConnection.close(conn)
     end
   end
 
-  describe "#send" do
+  describe "#request" do
     test "send start search message" do
-      {:ok, conn} = TcpConnection.start_link(host(), 1491, [])
-      assert :ok = TcpConnection.send(conn, "START search SecretPassword")
+      {:ok, conn} = TcpConnection.open(host(), 1491)
+      assert {:ok, _msq} = TcpConnection.request(conn, "START search SecretPassword")
       TcpConnection.close(conn)
     end
 
     test "send invalid mode" do
-      {:ok, conn} = TcpConnection.start_link(host(), 1491, [])
-      TcpConnection.recv(conn)
-      assert :ok = TcpConnection.send(conn, "START invalid SecretPassword")
-      assert {:ok, "ENDED invalid_mode"} = TcpConnection.recv(conn)
+      {:ok, conn} = TcpConnection.open(host(), 1491)
+
+      assert {:ok, "ENDED invalid_mode"} =
+               TcpConnection.request(conn, "START invalid SecretPassword")
+
       TcpConnection.close(conn)
     end
 
     test "send invalid command" do
       conn = connection()
-      assert :ok = TcpConnection.send(conn, "invalid command")
-      assert {:error, _} = TcpConnection.recv(conn)
+      assert {:error, _} = TcpConnection.request(conn, "invalid command")
       TcpConnection.close(conn)
     end
   end
 
   defp connection(mode \\ "search") do
-    {:ok, conn} = TcpConnection.start_link(host(), 1491, [])
-    {:ok, _msg} = TcpConnection.recv(conn)
-    :ok = TcpConnection.send(conn, "START #{mode} SecretPassword")
-    {:ok, _msg} = TcpConnection.recv(conn)
-
-    conn
+    with(
+      {:ok, conn} <- TcpConnection.open(host(), 1491),
+      {:ok, _msg} <- TcpConnection.request(conn, "START #{mode} SecretPassword")
+    ) do
+      conn
+    end
   end
 
   defp host do

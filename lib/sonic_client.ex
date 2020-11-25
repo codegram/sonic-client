@@ -19,13 +19,15 @@ defmodule SonicClient do
   def start(host, port, mode, password) do
     command = "START #{mode} #{password}"
 
-    with {:ok, conn} <- TcpConnection.open(host, port, []) do
-      case TcpConnection.request(conn, command) do
-        {:ok, "STARTED " <> _msg} -> {:ok, conn}
-        error -> error
-      end
-    else
-      error -> error
+    case TcpConnection.open(host, port, []) do
+      {:ok, conn} ->
+        case TcpConnection.request(conn, command) do
+          {:ok, "STARTED " <> _msg} -> {:ok, conn}
+          error -> error
+        end
+
+      error ->
+        error
     end
   end
 
@@ -35,9 +37,8 @@ defmodule SonicClient do
   def stop(conn) do
     command = "QUIT"
 
-    with({:ok, _msg} <- TcpConnection.request(conn, command)) do
-      TcpConnection.close(conn)
-    else
+    case TcpConnection.request(conn, command) do
+      {:ok, _msg} -> TcpConnection.close(conn)
       error -> error
     end
   end

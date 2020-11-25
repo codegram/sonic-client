@@ -3,11 +3,9 @@ defmodule SonicClient.TcpConnection do
   This is the TcpConnection module, responsible to send and receive calls.
   """
 
-  alias __MODULE__
-
   use Connection
 
-  @spec start_link(any, any, any, any) :: :ignore | {:error, any} | {:ok, pid}
+  # @spec start_link(any, any, any, any) :: :ignore | {:error, any} | {:ok, pid}
   @doc """
   Starts connection with the tcp server.
 
@@ -18,11 +16,12 @@ defmodule SonicClient.TcpConnection do
       SonicClient.TcpConnection.start_link(127.0.0.1, 1491, [])
       {:ok, #PID<0.198.0>}
   """
-  def start_link(host, port, opts, timeout \\ 5000) do
-    Connection.start_link(__MODULE__, {host, port, opts, timeout})
-  end
 
-  def open(host, port, opts, timeout \\ 5000) do
+  # def start_link(host, port, opts, timeout \\ 5000) do
+  #   Connection.start_link(__MODULE__, {host, port, opts, timeout})
+  # end
+
+  def open(host, port, opts \\ [], timeout \\ 5000) do
     {:ok, conn} = Connection.start_link(__MODULE__, {host, port, opts, timeout})
 
     case build_response(conn, 0, 300) do
@@ -31,39 +30,26 @@ defmodule SonicClient.TcpConnection do
     end
   end
 
-  @doc """
-  Sends a message to the tcp server.
-
-  Returns `:ok`.
-
-  ## Examples
-
-      .TcpConnection.send(conn, "start search password")
-      :ok
-  """
-  def send(conn, command) do
-    # IO.puts("Sending \"#{data}\"")
-    Connection.call(conn, {:send, command <> "\n"})
+  def request(conn, command) do
+    case send_message(conn, command) do
+      :ok -> receive_message(conn)
+      error -> error
+    end
   end
 
-  @doc """
-  Receives message from the tcp server.
+  def close(conn), do: Connection.call(conn, :close)
 
-  Returns `{:ok, response}`.
+  defp send_message(conn, message) do
+    # IO.puts("Sending \"#{data}\"")
+    Connection.call(conn, {:send, message <> "\n"})
+  end
 
-  ## Examples
-
-      .TcpConnection.recv(conn)
-      {:ok, 'CONNECTED <sonic-server v1.3.0>\r\n'}
-  """
-  def recv(conn, bytes \\ 0, timeout \\ 3000) do
+  defp receive_message(conn, bytes \\ 0, timeout \\ 3000) do
     response = build_response(conn, bytes, timeout)
-
     # if match?({:ok, _}, response) do
     #   {:ok, msg} = response
     #   IO.puts("Received \"#{msg}\"")
     # end
-
     response
   end
 
@@ -83,15 +69,6 @@ defmodule SonicClient.TcpConnection do
         build_response([partial_response | partial_responses], conn, bytes, timeout)
     end
   end
-
-  def request(conn, command) do
-    case TcpConnection.send(conn, command) do
-      :ok -> TcpConnection.recv(conn)
-      error -> error
-    end
-  end
-
-  def close(conn), do: Connection.call(conn, :close)
 
   @impl true
   def init({host, port, opts, timeout}) do

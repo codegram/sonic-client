@@ -2,16 +2,11 @@ defmodule SonicClient.Modes.Control do
   alias SonicClient.TcpConnection
 
   def consolidate(conn) do
-    TcpConnection.send(
-      conn,
-      "TRIGGER consolidate"
-    )
+    command = "TRIGGER consolidate"
 
-    response = TcpConnection.recv(conn)
-
-    case response do
+    case TcpConnection.request(conn, command) do
       {:ok, "OK"} -> :ok
-      _ -> response
+      error -> error
     end
   end
 end
