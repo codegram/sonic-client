@@ -24,6 +24,7 @@
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
     "JakeBecker.elixir-ls",
+    "pgourlain.erlang",
     "ms-azuretools.vscode-docker",
     "pantajoe.vscode-elixir-credo",
     "mhutchie.git-graph",

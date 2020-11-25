@@ -4,52 +4,37 @@ defmodule SonicClient.Modes.Ingest do
   @default_bucket_name "default_bucket"
 
   def push(conn, collection, object, term) do
-    TcpConnection.send(
-      conn,
-      "PUSH #{collection} #{@default_bucket_name} #{object} \"#{term}\""
-    )
+    command = ~s(PUSH #{collection} #{@default_bucket_name} #{object} "#{term}")
 
-    response = TcpConnection.recv(conn)
-
-    case response do
+    case TcpConnection.request(conn, command) do
       {:ok, "OK"} -> :ok
-      _ -> response
+      error -> error
     end
   end
 
   def count(conn, collection) do
-    TcpConnection.send(
-      conn,
-      "COUNT #{collection}"
-    )
+    command = "COUNT #{collection}"
 
-    response = TcpConnection.recv(conn)
-
-    case response do
+    case TcpConnection.request(conn, command) do
       {:ok, "RESULT " <> num_str} ->
         case Integer.parse(num_str) do
           {num, _} -> num
         end
 
-      _ ->
-        response
+      error ->
+        error
     end
   end
 
   def flush(conn, collection) do
-    TcpConnection.send(
-      conn,
-      "FLUSHC #{collection}"
-    )
+    command = "FLUSHC #{collection}"
 
-    response = TcpConnection.recv(conn)
-
-    case response do
-      {:ok, "RESULT " <> _num_str} ->
+    case TcpConnection.request(conn, command) do
+      {:ok, "RESULT " <> _msg} ->
         :ok
 
-      _ ->
-        response
+      error ->
+        error
     end
   end
 end
