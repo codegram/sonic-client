@@ -12,7 +12,10 @@ defmodule SonicClient.TcpConnectionTest do
   describe "#request" do
     test "send start search message" do
       {:ok, conn} = TcpConnection.open(host(), 1491)
-      assert {:ok, _msq} = TcpConnection.request(conn, "START search SecretPassword")
+
+      assert {:ok, "STARTED search protocol(1) buffer(20000)"} =
+               TcpConnection.request(conn, "START search SecretPassword")
+
       TcpConnection.close(conn)
     end
 
