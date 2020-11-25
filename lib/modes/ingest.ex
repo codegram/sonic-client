@@ -5,7 +5,6 @@ defmodule SonicClient.Modes.Ingest do
 
   def push(conn, collection, object, term) do
     command = "PUSH #{collection} #{@default_bucket_name} #{object} \"#{term}\""
-    # response = TcpConnection.request(conn, command)
 
     case TcpConnection.request(conn, command) do
       {:ok, "OK"} -> :ok
@@ -31,7 +30,7 @@ defmodule SonicClient.Modes.Ingest do
     command = "FLUSHC #{collection}"
 
     case TcpConnection.request(conn, command) do
-      {:ok, "RESULT " <> _} ->
+      {:ok, "RESULT " <> _msg} ->
         :ok
 
       error ->
