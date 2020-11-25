@@ -30,7 +30,7 @@ defmodule SonicClientTest do
   test "stop connection" do
     {:ok, conn} =
       SonicClient.start(
-        Kernel.to_charlist("sonic"),
+        host(),
         1491,
         "search",
         "SecretPassword"
