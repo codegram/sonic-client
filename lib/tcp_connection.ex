@@ -1,4 +1,4 @@
-defmodule ElixirSonicClient.TcpConnection do
+defmodule SonicClient.TcpConnection do
   @moduledoc """
   This is the TcpConnection module, responsible to send and receive calls.
   """
@@ -15,7 +15,7 @@ defmodule ElixirSonicClient.TcpConnection do
 
   ## Examples
 
-      iex> ElixirSonicClient.TcpConnection.start_link(127.0.0.1, 1491, [])
+      SonicClient.TcpConnection.start_link(127.0.0.1, 1491, [])
       {:ok, #PID<0.198.0>}
   """
   def start_link(host, port, opts, timeout \\ 5000) do
@@ -38,7 +38,7 @@ defmodule ElixirSonicClient.TcpConnection do
 
   ## Examples
 
-      iex> ElixirSonicClient.TcpConnection.send(conn, "start search password")
+      .TcpConnection.send(conn, "start search password")
       :ok
   """
   def send(conn, command) do
@@ -53,7 +53,7 @@ defmodule ElixirSonicClient.TcpConnection do
 
   ## Examples
 
-      iex> ElixirSonicClient.TcpConnection.recv(conn)
+      .TcpConnection.recv(conn)
       {:ok, 'CONNECTED <sonic-server v1.3.0>\r\n'}
   """
   def recv(conn, bytes \\ 0, timeout \\ 3000) do

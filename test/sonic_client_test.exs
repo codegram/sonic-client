@@ -1,10 +1,10 @@
-defmodule ElixirSonicClientTest do
+defmodule SonicClientTest do
   use ExUnit.Case
-  alias ElixirSonicClient.TcpConnection
+  alias SonicClient.TcpConnection
 
   test "start search mode" do
     assert {:ok, conn} =
-             ElixirSonicClient.start(
+             SonicClient.start(
                host(),
                1491,
                "search",
@@ -16,27 +16,27 @@ defmodule ElixirSonicClientTest do
 
   test "ping" do
     {:ok, conn} =
-      ElixirSonicClient.start(
+      SonicClient.start(
         host(),
         1491,
         "search",
         "SecretPassword"
       )
 
-    assert {:ok, "PONG"} == ElixirSonicClient.ping(conn)
+    assert {:ok, "PONG"} == SonicClient.ping(conn)
     TcpConnection.close(conn)
   end
 
   test "stop connection" do
     {:ok, conn} =
-      ElixirSonicClient.start(
-        Kernel.to_charlist("sonic"),
+      SonicClient.start(
+        host(),
         1491,
         "search",
         "SecretPassword"
       )
 
-    ElixirSonicClient.stop(conn)
+    SonicClient.stop(conn)
   end
 
   test "add data to the index" do
@@ -45,60 +45,60 @@ defmodule ElixirSonicClientTest do
     term = "The term."
 
     {:ok, conn} =
-      ElixirSonicClient.start(
+      SonicClient.start(
         host(),
         1491,
         "ingest",
         "SecretPassword"
       )
 
-    assert :ok == ElixirSonicClient.push(conn, collection, object, term)
-    ElixirSonicClient.stop(conn)
+    assert :ok == SonicClient.push(conn, collection, object, term)
+    SonicClient.stop(conn)
 
     {:ok, conn} =
-      ElixirSonicClient.start(
+      SonicClient.start(
         host(),
         1491,
         "control",
         "SecretPassword"
       )
 
-    assert :ok == ElixirSonicClient.consolidate(conn)
-    ElixirSonicClient.stop(conn)
+    assert :ok == SonicClient.consolidate(conn)
+    SonicClient.stop(conn)
 
     {:ok, conn} =
-      ElixirSonicClient.start(
+      SonicClient.start(
         host(),
         1491,
         "ingest",
         "SecretPassword"
       )
 
-    assert 1 == ElixirSonicClient.count(conn, collection)
-    assert :ok == ElixirSonicClient.flush(conn, collection)
-    ElixirSonicClient.stop(conn)
+    assert 1 == SonicClient.count(conn, collection)
+    assert :ok == SonicClient.flush(conn, collection)
+    SonicClient.stop(conn)
 
     {:ok, conn} =
-      ElixirSonicClient.start(
+      SonicClient.start(
         host(),
         1491,
         "control",
         "SecretPassword"
       )
 
-    assert :ok == ElixirSonicClient.consolidate(conn)
-    ElixirSonicClient.stop(conn)
+    assert :ok == SonicClient.consolidate(conn)
+    SonicClient.stop(conn)
 
     {:ok, conn} =
-      ElixirSonicClient.start(
+      SonicClient.start(
         host(),
         1491,
         "ingest",
         "SecretPassword"
       )
 
-    assert 0 == ElixirSonicClient.count(conn, collection)
-    ElixirSonicClient.stop(conn)
+    assert 0 == SonicClient.count(conn, collection)
+    SonicClient.stop(conn)
   end
 
   defp host do

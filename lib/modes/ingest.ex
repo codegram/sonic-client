@@ -1,5 +1,5 @@
-defmodule ElixirSonicClient.Modes.Ingest do
-  alias ElixirSonicClient.TcpConnection
+defmodule SonicClient.Modes.Ingest do
+  alias SonicClient.TcpConnection
 
   @default_bucket_name "default_bucket"
 
