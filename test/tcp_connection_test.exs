@@ -2,7 +2,7 @@ defmodule SonicClient.TcpConnectionTest do
   use ExUnit.Case
   alias SonicClient.TcpConnection
 
-  describe "#start_link" do
+  describe "#open" do
     test "Successful connection" do
       {:ok, conn} = TcpConnection.open(host(), 1491)
       TcpConnection.close(conn)
