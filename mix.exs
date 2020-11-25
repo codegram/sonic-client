@@ -1,9 +1,9 @@
-defmodule ElixirSonicClient.MixProject do
+defmodule SonicClient.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :elixir_sonic_client,
+      app: :sonic_client,
       version: "0.1.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,

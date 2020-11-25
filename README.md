@@ -1,22 +1,23 @@
-# ElixirSonicClient
-![CI](https://github.com/codegram/elixir-sonic-client/workflows/CI/badge.svg)
+# SonicClient
+![CI](https://github.com/codegram/sonic-client/workflows/CI/badge.svg)
+![generate-docs](https://github.com/codegram/sonic-client/workflows/generate-docs/badge.svg)
 
 Sonic Client for Elixir
 
 **TODO: Add description**
 
 ## Docs
-https://codegram.github.io/elixir-sonic-client/
+https://codegram.github.io/sonic-client/
 
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `elixir_sonic_client` to your list of dependencies in `mix.exs`:
+by adding `sonic_client` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:elixir_sonic_client, "~> 0.1.0"}
+    {:sonic_client, "~> 0.1.0"}
   ]
 end
 ```
@@ -31,5 +32,5 @@ PING
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/elixir_sonic_client](https://hexdocs.pm/elixir_sonic_client).
+be found at [https://hexdocs.pm/sonic_client](https://hexdocs.pm/sonic_client).
 

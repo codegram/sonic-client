@@ -1,5 +1,5 @@
-defmodule ElixirSonicClient.Modes.Control do
-  alias ElixirSonicClient.TcpConnection
+defmodule SonicClient.Modes.Control do
+  alias SonicClient.TcpConnection
 
   def consolidate(conn) do
     TcpConnection.send(
