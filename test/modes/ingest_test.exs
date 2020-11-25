@@ -3,9 +3,11 @@ defmodule SonicClient.Modes.IngestTest do
   alias SonicClient.Modes.Control
   alias SonicClient.Modes.Ingest
 
-  @collection "some_collection_name"
-  @bucket_name "some_bucket_name"
-  @object "some_object"
+  @collection_0 "some_collection_name"
+  @collection_1 "some_other_collection_name"
+  @bucket_name_0 "some_bucket_name"
+  @bucket_name_1 "some_other_bucket_name"
+  @object_reference_0 "some_object"
   @term "Some term to be searched."
 
   @tag :wip
@@ -14,12 +16,20 @@ defmodule SonicClient.Modes.IngestTest do
       ingest_conn = connection("ingest")
       control_conn = connection("control")
 
-      assert :ok == Ingest.push(ingest_conn, @collection, @bucket_name, @object, @term)
+      assert :ok ==
+               Ingest.push(
+                 ingest_conn,
+                 @collection_0,
+                 @bucket_name_0,
+                 @object_reference_0,
+                 "Some term"
+               )
+
       assert :ok == Control.consolidate(control_conn)
-      assert 1 == Ingest.count(ingest_conn, @collection)
-      assert :ok == Ingest.flush(ingest_conn, @collection)
+      assert 1 == Ingest.count(ingest_conn, @collection_0)
+      assert :ok == Ingest.flush(ingest_conn, @collection_0)
       assert :ok == Control.consolidate(control_conn)
-      assert 0 == Ingest.count(ingest_conn, @collection)
+      assert 0 == Ingest.count(ingest_conn, @collection_0)
 
       SonicClient.stop(ingest_conn)
       SonicClient.stop(control_conn)
@@ -35,20 +45,41 @@ defmodule SonicClient.Modes.IngestTest do
       ingest_conn = connection("ingest")
       control_conn = connection("control")
 
-      assert :ok == Ingest.push(ingest_conn, @collection, @bucket_name, @object, "Term 1")
-      assert :ok == Ingest.push(ingest_conn, @collection, @bucket_name, @object, "Term 2")
+      assert :ok ==
+               Ingest.push(
+                 ingest_conn,
+                 @collection_0,
+                 @bucket_name_0,
+                 @object_reference_0,
+                 "Term 1"
+               )
 
       assert :ok ==
-               Ingest.push(ingest_conn, "some_other_collection", @bucket_name, @object, "Term 3")
+               Ingest.push(
+                 ingest_conn,
+                 @collection_0,
+                 @bucket_name_0,
+                 @object_reference_0,
+                 "Term 2"
+               )
+
+      assert :ok ==
+               Ingest.push(
+                 ingest_conn,
+                 @collection_1,
+                 @bucket_name_0,
+                 @object_reference_0,
+                 "Term 3"
+               )
 
       assert :ok == Control.consolidate(control_conn)
-      assert 2 == Ingest.count(ingest_conn, @collection)
-      assert 1 == Ingest.count(ingest_conn, "some_other_collection")
-      assert :ok == Ingest.flush(ingest_conn, @collection)
-      assert :ok == Ingest.flush(ingest_conn, "some_other_collection")
+      assert 2 == Ingest.count(ingest_conn, @collection_0)
+      assert 1 == Ingest.count(ingest_conn, @collection_1)
+      assert :ok == Ingest.flush(ingest_conn, @collection_0)
+      assert :ok == Ingest.flush(ingest_conn, @collection_1)
       assert :ok == Control.consolidate(control_conn)
-      assert 0 == Ingest.count(ingest_conn, @collection)
-      assert 0 == Ingest.count(ingest_conn, "some_other_collection")
+      assert 0 == Ingest.count(ingest_conn, @collection_0)
+      assert 0 == Ingest.count(ingest_conn, @collection_1)
 
       SonicClient.stop(ingest_conn)
       SonicClient.stop(control_conn)
