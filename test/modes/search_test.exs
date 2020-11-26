@@ -65,4 +65,24 @@ defmodule SonicClient.Modes.SearchTest do
       stop_connection(conn)
     end
   end
+
+  describe "#suggest" do
+    test "returns list of suggestions" do
+      conn = start_connection("search")
+
+      assert {:ok, ["test", "testable"]} =
+               Search.suggest(conn, "test_collection", "default_bucket", "te")
+
+      stop_connection(conn)
+    end
+
+    test "returns list of suggestions when limit 1" do
+      conn = start_connection("search")
+
+      assert {:ok, ["test"]} =
+               Search.suggest(conn, "test_collection", "default_bucket", "te", limit: 1)
+
+      stop_connection(conn)
+    end
+  end
 end

@@ -5,6 +5,8 @@ defmodule SonicClient.Modes.Search do
   alias SonicClient
   alias SonicClient.TcpConnection
 
+  @default_limit 15
+
   @doc """
   Query sonic database
 
@@ -23,10 +25,25 @@ defmodule SonicClient.Modes.Search do
 
   """
   def query(conn, collection, bucket, terms, opts \\ [limit: 10, offset: 0]) do
-    limit_param = if opts[:limit], do: "LIMIT(#{opts[:limit]})", else: "LIMIT(10)"
-    offset_param = if opts[:offset], do: "OFFSET(#{opts[:offset]})", else: "OFFSET(0)"
+    command =
+      ~s(QUERY #{collection} #{bucket} "#{terms}" #{limit_from_opts(opts)} #{
+        offset_from_opts(opts)
+      })
 
-    command = ~s(QUERY #{collection} #{bucket} "#{terms}" #{limit_param} #{offset_param})
     TcpConnection.search_request(conn, command)
+  end
+
+  def suggest(conn, collection, bucket, terms, opts \\ [limit: 10]) do
+    command = ~s(SUGGEST #{collection} #{bucket} "#{terms}" #{limit_from_opts(opts)})
+
+    TcpConnection.search_request(conn, command)
+  end
+
+  defp limit_from_opts(opts) do
+    if opts[:limit], do: "LIMIT(#{opts[:limit]})", else: "LIMIT(#{@default_limit})"
+  end
+
+  defp offset_from_opts(opts) do
+    if opts[:offset], do: "OFFSET(#{opts[:offset]})", else: "OFFSET(0)"
   end
 end
