@@ -19,9 +19,13 @@ defmodule SonicClient.TestConnectionHelper do
     SonicClient.push(ingest_conn, collection, object, term)
     stop_connection(ingest_conn)
 
-    control_conn = start_connection("control")
-    SonicClient.consolidate(control_conn)
-    stop_connection(control_conn)
+    consolidate()
+  end
+
+  def consolidate do
+    conn = start_connection("control")
+    SonicClient.consolidate(conn)
+    stop_connection(conn)
   end
 
   def flush(collection \\ @test_collection) do

@@ -2,6 +2,7 @@ defmodule SonicClient.Modes.IngestTest do
   use ExUnit.Case
   alias SonicClient.Modes.Control
   alias SonicClient.Modes.Ingest
+  import SonicClient.TestConnectionHelper
 
   @collection_0 "some_collection_name"
   @collection_1 "some_other_collection_name"
@@ -14,26 +15,27 @@ defmodule SonicClient.Modes.IngestTest do
   @tag :wip
   describe "#push" do
     test "push term to search for given connection, collection, bucket and object" do
-      ingest_conn = connection("ingest")
-      control_conn = connection("control")
+      conn = start_connection("ingest")
 
       assert :ok ==
                Ingest.push(
-                 ingest_conn,
+                 conn,
                  @collection_0,
                  @bucket_name_0,
                  @object_reference_0,
                  "Some term"
                )
 
-      assert :ok == Control.consolidate(control_conn)
-      assert 1 == Ingest.count(ingest_conn, @collection_0)
-      assert :ok == Ingest.flush(ingest_conn, @collection_0)
-      assert :ok == Control.consolidate(control_conn)
-      assert 0 == Ingest.count(ingest_conn, @collection_0)
+      consolidate()
 
-      SonicClient.stop(ingest_conn)
-      SonicClient.stop(control_conn)
+      assert 1 == Ingest.count(conn, @collection_0)
+      assert :ok == Ingest.flush(conn, @collection_0)
+
+      consolidate()
+
+      assert 0 == Ingest.count(conn, @collection_0)
+
+      stop_connection(conn)
     end
   end
 
@@ -43,8 +45,8 @@ defmodule SonicClient.Modes.IngestTest do
   @tag :wip
   describe "#count" do
     test "counts entries for a specific collection" do
-      ingest_conn = connection("ingest")
-      control_conn = connection("control")
+      ingest_conn = start_connection("ingest")
+      control_conn = start_connection("control")
 
       assert :ok ==
                Ingest.push(
