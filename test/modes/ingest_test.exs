@@ -13,7 +13,6 @@ defmodule SonicClient.Modes.IngestTest do
   @term "Some term to be searched."
 
   describe "#push" do
-    @tag :wip
     test "push term to search for given connection, collection, bucket, object and locale" do
       conn = start_connection("ingest")
 
