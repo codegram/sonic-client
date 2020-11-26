@@ -1,6 +1,7 @@
 defmodule SonicClient.TestConnectionHelper do
   alias SonicClient
   @test_collection "test_collection"
+  @test_bucket "default_bucket"
 
   def start_connection(mode) do
     {:ok, conn} =
@@ -14,9 +15,9 @@ defmodule SonicClient.TestConnectionHelper do
     conn
   end
 
-  def add_data(object, term, collection \\ @test_collection) do
+  def add_data(object, term, collection \\ @test_collection, bucket \\ @test_bucket) do
     ingest_conn = start_connection("ingest")
-    SonicClient.push(ingest_conn, collection, object, term)
+    SonicClient.push(ingest_conn, collection, bucket, object, term)
     stop_connection(ingest_conn)
 
     consolidate()

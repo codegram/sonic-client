@@ -56,8 +56,8 @@ defmodule SonicClient do
     TcpConnection.request(conn, command)
   end
 
-  def push(conn, collection, object, term) do
-    Ingest.push(conn, collection, object, term)
+  def push(conn, collection, bucket, object, term) do
+    Ingest.push(conn, collection, bucket, object, term)
   end
 
   def count(conn, collection) do
