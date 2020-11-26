@@ -33,8 +33,22 @@ defmodule SonicClient.Modes.Search do
     TcpConnection.search_request(conn, command)
   end
 
-  def suggest(conn, collection, bucket, terms, opts \\ [limit: 10]) do
-    command = ~s(SUGGEST #{collection} #{bucket} "#{terms}" #{limit_from_opts(opts)})
+  @doc """
+  Search for suggestion of words for autocomplete
+
+  ## Examples
+
+  iex> {:ok, conn} = SonicClient.start(127.0.0.1, 1491, "search", "secret")
+
+  iex> SonicClient.Modes.Search.suggest("my_collection", "bucket", "te")
+  {:ok, ["test", "testable"]}
+
+  iex> SonicClient.Modes.Search.suggest("my_collection", "bucket", "te", limit: 1)
+  {:ok, ["test"]}
+
+  """
+  def suggest(conn, collection, bucket, word, opts \\ [limit: 10]) do
+    command = ~s(SUGGEST #{collection} #{bucket} "#{word}" #{limit_from_opts(opts)})
 
     TcpConnection.search_request(conn, command)
   end
