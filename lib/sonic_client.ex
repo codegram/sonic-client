@@ -19,7 +19,7 @@ defmodule SonicClient do
   def start(host, port, mode, password) do
     command = "START #{mode} #{password}"
 
-    case TcpConnection.open(host, port, []) do
+    case TcpConnection.open(host, port, mode: :binary, packet: :line) do
       {:ok, conn} ->
         case TcpConnection.request(conn, command) do
           {:ok, "STARTED " <> _msg} -> {:ok, conn}
