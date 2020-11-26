@@ -47,12 +47,13 @@ defmodule SonicClient.TcpConnection do
     with(
       :ok <- send_message(conn, command),
       {:ok, "PENDING " <> marker} <- receive_message(conn),
-      {:ok, "EVENT QUERY " <> result} <- receive_message(conn)
+      {:ok, "EVENT " <> result} <- receive_message(conn)
     ) do
       {
         :ok,
         result
-        |> String.trim_leading("#{marker}")
+        |> String.trim_leading("QUERY #{marker}")
+        |> String.trim_leading("SUGGEST #{marker}")
         |> String.split(" ", trim: true)
       }
     else
