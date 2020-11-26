@@ -8,7 +8,7 @@
     <meta name="project" content="sonic_client v0.1.0">
     <title>SonicClient.Modes.Search — sonic_client v0.1.0</title>
     <link rel="stylesheet" href="dist/elixir-9f91ebe876dc01d67920.css" />
-    <script src="dist/sidebar_items-f1abcaf12a.js"></script>
+    <script src="dist/sidebar_items-3a073b5b85.js"></script>
       <script src="docs_config.js"></script>
     <script async src="dist/app-60a0c9f10e9e52eae31f.js"></script>
   </head>
@@ -67,6 +67,8 @@ sonic_client      </a>
       </h1>
 
 
+        <section id="moduledoc">
+<p>Module to search data on sonic.</p>        </section>
 
         <section id="summary" class="details-list">
           <h1 class="section-heading">
@@ -82,8 +84,15 @@ sonic_client      </a>
     </h2>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#query/4">query(conn, collection, bucket, terms)</a>
+    <a href="#query/5">query(conn, collection, bucket, terms, opts \\ [limit: 10, offset: 0])</a>
   </div>
+    <div class="summary-synopsis"><p>Query sonic database</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#suggest/5">suggest(conn, collection, bucket, word, opts \\ [limit: 10])</a>
+  </div>
+    <div class="summary-synopsis"><p>Search for suggestion of words for autocomplete</p></div>
 </div>
   </div>
         </section>
@@ -96,18 +105,41 @@ sonic_client      </a>
             </a>
 Functions          </h1>
           <div class="functions-list">
-<section class="detail" id="query/4">
+<section class="detail" id="query/5">
+    <span id="query/4"></span>
   <div class="detail-header">
-    <a href="#query/4" class="detail-link" title="Link to this function">
+    <a href="#query/5" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">query(conn, collection, bucket, terms)</h1>
+    <h1 class="signature">query(conn, collection, bucket, terms, opts \\ [limit: 10, offset: 0])</h1>
   </div>
 
   <section class="docstring">
 
-  </section>
+<p>Query sonic database</p><h2 id="query/5-examples" class="section-heading">
+  <a href="#query/5-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<p>iex&gt; {:ok, conn} = SonicClient.start(127.0.0.1, 1491, &quot;search&quot;, &quot;secret&quot;)</p><p>iex&gt; SonicClient.Modes.Search.query(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;test&quot;)</p><p>iex&gt; SonicClient.Modes.Search.query(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;test&quot;, limit: 1)</p><p>iex&gt; SonicClient.Modes.Search.query(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;test&quot;, limit: 1, offset: 1)</p>  </section>
+</section>
+<section class="detail" id="suggest/5">
+    <span id="suggest/4"></span>
+  <div class="detail-header">
+    <a href="#suggest/5" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">suggest(conn, collection, bucket, word, opts \\ [limit: 10])</h1>
+  </div>
+
+  <section class="docstring">
+
+<p>Search for suggestion of words for autocomplete</p><h2 id="suggest/5-examples" class="section-heading">
+  <a href="#suggest/5-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<p>iex&gt; {:ok, conn} = SonicClient.start(127.0.0.1, 1491, &quot;search&quot;, &quot;secret&quot;)</p><p>iex&gt; SonicClient.Modes.Search.suggest(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;te&quot;)</p><p>iex&gt; SonicClient.Modes.Search.suggest(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;te&quot;, limit: 1)</p>  </section>
 </section>
           </div>
         </section>
