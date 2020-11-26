@@ -15,9 +15,13 @@ defmodule SonicClient.TestConnectionHelper do
   end
 
   def add_data(object, term, collection \\ @test_collection) do
-    conn = start_connection("ingest")
-    SonicClient.push(conn, collection, object, term)
-    stop_connection(conn)
+    ingest_conn = start_connection("ingest")
+    SonicClient.push(ingest_conn, collection, object, term)
+    stop_connection(ingest_conn)
+
+    control_conn = start_connection("control")
+    SonicClient.consolidate(control_conn)
+    stop_connection(control_conn)
   end
 
   def flush(collection \\ @test_collection) do
