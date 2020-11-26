@@ -1,6 +1,7 @@
 404.html
 SonicClient.Modes.Control.html
 SonicClient.Modes.Ingest.html
+SonicClient.Modes.Search.html
 SonicClient.TcpConnection.html
 SonicClient.html
 api-reference.html
@@ -10,7 +11,7 @@ dist/html/fonts/icomoon.eot
 dist/html/fonts/icomoon.svg
 dist/html/fonts/icomoon.ttf
 dist/html/fonts/icomoon.woff
-dist/search_items-b90903d84d.js
-dist/sidebar_items-8c3f445ec5.js
+dist/search_items-b38fc810e7.js
+dist/sidebar_items-f1abcaf12a.js
 index.html
 search.html

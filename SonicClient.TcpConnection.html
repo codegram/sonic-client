@@ -8,7 +8,7 @@
     <meta name="project" content="sonic_client v0.1.0">
     <title>SonicClient.TcpConnection — sonic_client v0.1.0</title>
     <link rel="stylesheet" href="dist/elixir-9f91ebe876dc01d67920.css" />
-    <script src="dist/sidebar_items-8c3f445ec5.js"></script>
+    <script src="dist/sidebar_items-f1abcaf12a.js"></script>
       <script src="docs_config.js"></script>
     <script async src="dist/app-60a0c9f10e9e52eae31f.js"></script>
   </head>
@@ -99,6 +99,11 @@ sonic_client      </a>
   </div>
     <div class="summary-synopsis"><p>Sends a synchronous request with command <code class="inline">command</code> to the Sonic server through the PID child.</p></div>
 </div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#search_request/2">search_request(conn, command)</a>
+  </div>
+</div>
   </div>
         </section>
 
@@ -144,8 +149,8 @@ Functions          </h1>
   <a href="#open/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Examples
 </h2>
-<pre><code class="nohighlight makeup elixir"><span class="nc">SonicClient.TcpConnection</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="7457798234-1">(</span><span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mi">1491</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7457798234-2">[</span><span class="p" data-group-id="7457798234-2">]</span><span class="p" data-group-id="7457798234-1">)</span><span class="w">
-</span><span class="p" data-group-id="7457798234-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7457798234-4">#</span><span class="nc" data-group-id="7457798234-4">PID</span><span class="p" data-group-id="7457798234-4">&lt;</span><span class="mi">0</span><span class="o">.</span><span class="mi">198</span><span class="o">.</span><span class="mi">0</span><span class="p" data-group-id="7457798234-4">&gt;</span><span class="p" data-group-id="7457798234-3">}</span></code></pre>  </section>
+<pre><code class="nohighlight makeup elixir"><span class="nc">SonicClient.TcpConnection</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="0518830612-1">(</span><span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mi">1491</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0518830612-2">[</span><span class="p" data-group-id="0518830612-2">]</span><span class="p" data-group-id="0518830612-1">)</span><span class="w">
+</span><span class="p" data-group-id="0518830612-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0518830612-4">#</span><span class="nc" data-group-id="0518830612-4">PID</span><span class="p" data-group-id="0518830612-4">&lt;</span><span class="mi">0</span><span class="o">.</span><span class="mi">198</span><span class="o">.</span><span class="mi">0</span><span class="p" data-group-id="0518830612-4">&gt;</span><span class="p" data-group-id="0518830612-3">}</span></code></pre>  </section>
 </section>
 <section class="detail" id="request/2">
   <div class="detail-header">
@@ -163,6 +168,19 @@ Functions          </h1>
       </div>
 
 <p>Sends a synchronous request with command <code class="inline">command</code> to the Sonic server through the PID child.</p><p>Returns <code class="inline">{:ok, response}</code>.</p><p>Where response is a String with the body of the response.</p>  </section>
+</section>
+<section class="detail" id="search_request/2">
+  <div class="detail-header">
+    <a href="#search_request/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">search_request(conn, command)</h1>
+  </div>
+
+  <section class="docstring">
+
+  </section>
 </section>
           </div>
         </section>
