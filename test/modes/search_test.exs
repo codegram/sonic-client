@@ -5,27 +5,20 @@ defmodule SonicClient.Modes.SearchTest do
 
   describe "#query" do
     setup do
-      flush()
-    end
+      add_data("user:1", "It is a test")
+      add_data("user:2", "It is a testable text")
+      add_data("user:3", "It should not appear in the search")
 
-    test "returns one element" do
-      add_data("user:1", "this is a test")
-      add_data("user:2", "It should not appear in the search")
-      conn = start_connection("search")
-      assert {:ok, ["user:1"]} = Search.query(conn, "test_collection", "default_bucket", "test")
-      stop_connection(conn)
+      on_exit(fn -> flush() end)
     end
 
     test "returns empty list" do
       conn = start_connection("search")
-      assert {:ok, []} = Search.query(conn, "test_collection", "default_bucket", "test")
+      assert {:ok, []} = Search.query(conn, "test_collection", "default_bucket", "non-existent")
       stop_connection(conn)
     end
 
     test "returns list of elements" do
-      add_data("user:1", "this is a test")
-      add_data("user:2", "this is a testable text")
-
       conn = start_connection("search")
 
       assert {:ok, ["user:1", "user:2"]} =
@@ -35,12 +28,18 @@ defmodule SonicClient.Modes.SearchTest do
     end
 
     test "returns list of elements based on alternate words" do
-      add_data("user:1", "this is a test")
-      add_data("user:2", "this is a testable text")
-
       conn = start_connection("search")
 
       assert {:ok, ["user:1"]} = Search.query(conn, "test_collection", "default_bucket", "tist")
+
+      stop_connection(conn)
+    end
+
+    test "returns list of elements with limit 1" do
+      conn = start_connection("search")
+
+      assert {:ok, ["user:1"]} =
+               Search.query(conn, "test_collection", "default_bucket", "test", limit: 1)
 
       stop_connection(conn)
     end
