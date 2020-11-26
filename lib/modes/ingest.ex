@@ -11,7 +11,7 @@ defmodule SonicClient.Modes.Ingest do
   end
 
   def push(conn, collection, bucket, object, term, locale) do
-    command = ~s'PUSH #{collection} #{bucket} #{object} "#{term}" LANG(#{locale})'
+    command = ~s[PUSH #{collection} #{bucket} #{object} "#{term}" LANG(#{locale})]
 
     case TcpConnection.request(conn, command) do
       {:ok, "OK"} -> :ok
@@ -20,7 +20,35 @@ defmodule SonicClient.Modes.Ingest do
   end
 
   def count(conn, collection) do
-    command = "COUNT #{collection}"
+    command = ~s[COUNT #{collection}]
+
+    case TcpConnection.request(conn, command) do
+      {:ok, "RESULT " <> num_str} ->
+        case Integer.parse(num_str) do
+          {num, _} -> num
+        end
+
+      error ->
+        error
+    end
+  end
+
+  def count(conn, collection, bucket) do
+    command = ~s[COUNT #{collection} #{bucket}]
+
+    case TcpConnection.request(conn, command) do
+      {:ok, "RESULT " <> num_str} ->
+        case Integer.parse(num_str) do
+          {num, _} -> num
+        end
+
+      error ->
+        error
+    end
+  end
+
+  def count(conn, collection, bucket, object) do
+    command = ~s[COUNT #{collection} #{bucket} #{object}]
 
     case TcpConnection.request(conn, command) do
       {:ok, "RESULT " <> num_str} ->
@@ -34,7 +62,31 @@ defmodule SonicClient.Modes.Ingest do
   end
 
   def flush(conn, collection) do
-    command = "FLUSHC #{collection}"
+    command = ~s[FLUSHC #{collection}]
+
+    case TcpConnection.request(conn, command) do
+      {:ok, "RESULT " <> _msg} ->
+        :ok
+
+      error ->
+        error
+    end
+  end
+
+  def flush(conn, collection, bucket) do
+    command = ~s[FLUSHB #{collection} #{bucket}]
+
+    case TcpConnection.request(conn, command) do
+      {:ok, "RESULT " <> _msg} ->
+        :ok
+
+      error ->
+        error
+    end
+  end
+
+  def flush(conn, collection, bucket, object) do
+    command = ~s[FLUSHO #{collection} #{bucket} #{object}]
 
     case TcpConnection.request(conn, command) do
       {:ok, "RESULT " <> _msg} ->
