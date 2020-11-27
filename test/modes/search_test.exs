@@ -1,6 +1,5 @@
 defmodule SonicClient.Modes.SearchTest do
   use ExUnit.Case
-  alias SonicClient.Modes.Ingest
   alias SonicClient.Modes.Search
   import SonicClient.TestConnectionHelper
 
@@ -10,7 +9,7 @@ defmodule SonicClient.Modes.SearchTest do
 
     add_data("user:1", "It is a common test that I love")
     add_data("user:2", "It is a common testable text that I love")
-    add_data("user:3", "It should not appear in the common search")
+    add_data("user:3", "This color should not appear in the common search")
     consolidate()
 
     on_exit(fn -> flush() end)
@@ -41,8 +40,8 @@ defmodule SonicClient.Modes.SearchTest do
     test "returns list of elements based on alternate words" do
       conn = start_connection("search")
 
-      assert {:ok, ["user:1"]} =
-               Search.query(conn, "test_collection", "default_bucket", "tist", locale: "eng")
+      assert {:ok, ["user:2", "user:1"]} =
+               Search.query(conn, "test_collection", "default_bucket", "lovi", locale: "eng")
 
       stop_connection(conn)
     end
@@ -50,8 +49,8 @@ defmodule SonicClient.Modes.SearchTest do
     test "returns list of elements when limit 1" do
       conn = start_connection("search")
 
-      assert {:ok, ["user:1"]} =
-               Search.query(conn, "test_collection", "default_bucket", "test",
+      assert {:ok, ["user:3"]} =
+               Search.query(conn, "test_collection", "default_bucket", "common",
                  limit: 1,
                  locale: "eng"
                )
@@ -62,8 +61,8 @@ defmodule SonicClient.Modes.SearchTest do
     test "returns list of elements when offset 1" do
       conn = start_connection("search")
 
-      assert {:ok, ["user:2"]} =
-               Search.query(conn, "test_collection", "default_bucket", "common",
+      assert {:ok, ["user:1"]} =
+               Search.query(conn, "test_collection", "default_bucket", "love",
                  offset: 1,
                  locale: "eng"
                )
@@ -89,8 +88,8 @@ defmodule SonicClient.Modes.SearchTest do
     test "returns list of suggestions" do
       conn = start_connection("search")
 
-      assert {:ok, ["test", "testable"]} =
-               Search.suggest(conn, "test_collection", "default_bucket", "te")
+      assert {:ok, ["color", "common"]} =
+               Search.suggest(conn, "test_collection", "default_bucket", "co")
 
       stop_connection(conn)
     end
@@ -98,8 +97,8 @@ defmodule SonicClient.Modes.SearchTest do
     test "returns list of suggestions when limit 1" do
       conn = start_connection("search")
 
-      assert {:ok, ["test"]} =
-               Search.suggest(conn, "test_collection", "default_bucket", "te", limit: 1)
+      assert {:ok, ["color"]} =
+               Search.suggest(conn, "test_collection", "default_bucket", "co", limit: 1)
 
       stop_connection(conn)
     end
