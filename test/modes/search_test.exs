@@ -15,7 +15,12 @@ defmodule SonicClient.Modes.SearchTest do
   describe "#query" do
     test "returns empty list" do
       conn = start_connection("search")
-      assert {:ok, []} = Search.query(conn, "test_collection", "default_bucket", "non-existent")
+
+      assert {:ok, []} =
+               Search.query(conn, "test_collection", "default_bucket", "non-existent",
+                 locale: "eng"
+               )
+
       stop_connection(conn)
     end
 
@@ -31,7 +36,8 @@ defmodule SonicClient.Modes.SearchTest do
     test "returns list of elements based on alternate words" do
       conn = start_connection("search")
 
-      assert {:ok, ["user:1"]} = Search.query(conn, "test_collection", "default_bucket", "tist")
+      assert {:ok, ["user:1"]} =
+               Search.query(conn, "test_collection", "default_bucket", "tist", locale: "eng")
 
       stop_connection(conn)
     end
@@ -40,7 +46,10 @@ defmodule SonicClient.Modes.SearchTest do
       conn = start_connection("search")
 
       assert {:ok, ["user:1"]} =
-               Search.query(conn, "test_collection", "default_bucket", "test", limit: 1)
+               Search.query(conn, "test_collection", "default_bucket", "test",
+                 limit: 1,
+                 locale: "eng"
+               )
 
       stop_connection(conn)
     end
@@ -49,7 +58,10 @@ defmodule SonicClient.Modes.SearchTest do
       conn = start_connection("search")
 
       assert {:ok, ["user:2"]} =
-               Search.query(conn, "test_collection", "default_bucket", "test", offset: 1)
+               Search.query(conn, "test_collection", "default_bucket", "common",
+                 offset: 1,
+                 locale: "eng"
+               )
 
       stop_connection(conn)
     end
@@ -60,7 +72,8 @@ defmodule SonicClient.Modes.SearchTest do
       assert {:ok, ["user:2"]} =
                Search.query(conn, "test_collection", "default_bucket", "common",
                  limit: 1,
-                 offset: 1
+                 offset: 1,
+                 locale: "eng"
                )
 
       stop_connection(conn)
