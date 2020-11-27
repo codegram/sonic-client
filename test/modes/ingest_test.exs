@@ -1,152 +1,216 @@
 defmodule SonicClient.Modes.IngestTest do
   use ExUnit.Case
-  alias SonicClient.Modes.Control
+  alias SonicClient.Modes.Search
   alias SonicClient.Modes.Ingest
   import SonicClient.TestConnectionHelper
 
-  @collection_0 "some_collection_name"
-  @collection_1 "some_other_collection_name"
-  @bucket_name_0 "some_bucket_name"
-  @bucket_name_1 "some_other_bucket_name"
-  @object_reference_0 "some_object"
-  @object_reference_1 "some_other"
-  @term "Some term to be searched."
+  @collection_0 "plays"
+  @bucket_name_0 "reader_0"
+  @bucket_name_1 "reader_1"
+  @object_reference_0 "hamlet"
+  @object_reference_1 "macbeth"
+
+  @line_0 "Whether it is nobler in the mind to suffer the slings and arrows of outrageous fortune,"
+  @line_1 "When shall we three meet again, in thunder, lightning, or in rain?"
 
   describe "#push" do
     test "push term to search for given connection, collection, bucket, object and locale" do
-      conn = start_connection("ingest")
+      ingest_connection = start_connection("ingest")
+      search_connection = start_connection("search")
 
       assert :ok ==
                Ingest.push(
-                 conn,
+                 ingest_connection,
                  @collection_0,
                  @bucket_name_0,
                  @object_reference_0,
-                 "nectar",
-                 "eng"
+                 @line_0
+               )
+
+      assert :ok ==
+               Ingest.push(
+                 ingest_connection,
+                 @collection_0,
+                 @bucket_name_1,
+                 @object_reference_1,
+                 @line_1
                )
 
       consolidate()
 
-      assert 1 == Ingest.count(conn, @collection_0)
-      assert :ok == Ingest.flush(conn, @collection_0)
+      assert {:ok, [@object_reference_0]} =
+               Search.query(
+                 search_connection,
+                 @collection_0,
+                 @bucket_name_0,
+                 "outrageous"
+               )
+
+      assert {:ok, [@object_reference_1]} =
+               Search.query(
+                 search_connection,
+                 @collection_0,
+                 @bucket_name_1,
+                 "thunder"
+               )
+
+      assert :ok == Ingest.flush(ingest_connection, @collection_0)
 
       consolidate()
 
-      assert 0 == Ingest.count(conn, @collection_0)
-
-      stop_connection(conn)
+      stop_connection(search_connection)
+      stop_connection(ingest_connection)
     end
   end
 
   describe "#pop" do
   end
 
-  describe "#count" do
-    test "counts buckets for a specific collection" do
-      conn = start_connection("ingest")
+  describe "#flush" do
+    test "flushes a whole collection" do
+      ingest_connection = start_connection("ingest")
+      search_connection = start_connection("search")
 
       assert :ok ==
                Ingest.push(
-                 conn,
+                 ingest_connection,
                  @collection_0,
                  @bucket_name_0,
                  @object_reference_0,
-                 "To be, or not to be, that is the question:"
+                 @line_0
                )
 
       assert :ok ==
                Ingest.push(
-                 conn,
+                 ingest_connection,
                  @collection_0,
                  @bucket_name_1,
-                 @object_reference_0,
-                 "Whether it is nobler in the mind to suffer"
+                 @object_reference_1,
+                 @line_1
                )
 
-      assert :ok ==
-               Ingest.push(
-                 conn,
-                 @collection_1,
+      consolidate()
+
+      assert :ok == Ingest.flush(ingest_connection, @collection_0)
+      assert :ok == Ingest.flush(ingest_connection, @collection_0)
+
+      consolidate()
+
+      assert {:ok, []} =
+               Search.query(
+                 search_connection,
+                 @collection_0,
                  @bucket_name_0,
-                 @object_reference_0,
-                 "The slings and arrows of outrageous fortune,"
+                 "outrageous"
                )
 
-      consolidate()
+      assert {:ok, []} =
+               Search.query(
+                 search_connection,
+                 @collection_0,
+                 @bucket_name_1,
+                 "thunder"
+               )
 
-      assert 2 == Ingest.count(conn, @collection_0)
-      assert 1 == Ingest.count(conn, @collection_1)
-      assert :ok == Ingest.flush(conn, @collection_0)
-      assert :ok == Ingest.flush(conn, @collection_1)
-
-      consolidate()
-
-      assert 0 == Ingest.count(conn, @collection_0)
-      assert 0 == Ingest.count(conn, @collection_1)
-
-      stop_connection(conn)
+      stop_connection(search_connection)
+      stop_connection(ingest_connection)
     end
 
-    # @tag :wip
-    test "counts objects for a specific bucket in a collection" do
-      conn = start_connection("ingest")
-
-      assert :ok == Ingest.flush(conn, @collection_0, @bucket_name_0)
-      assert :ok == Ingest.flush(conn, @collection_0, @bucket_name_1)
-
-      consolidate()
+    test "flushes a bucket" do
+      ingest_connection = start_connection("ingest")
+      search_connection = start_connection("search")
 
       assert :ok ==
                Ingest.push(
-                 conn,
+                 ingest_connection,
                  @collection_0,
                  @bucket_name_0,
                  @object_reference_0,
-                 "question",
-                 "eng"
+                 @line_0
                )
 
       assert :ok ==
                Ingest.push(
-                 conn,
+                 ingest_connection,
+                 @collection_0,
+                 @bucket_name_1,
+                 @object_reference_1,
+                 @line_1
+               )
+
+      consolidate()
+
+      assert :ok == Ingest.flush(ingest_connection, @collection_0, @bucket_name_0)
+
+      consolidate()
+
+      assert {:ok, []} =
+               Search.query(
+                 search_connection,
+                 @collection_0,
+                 @bucket_name_0,
+                 "outrageous"
+               )
+
+      assert {:ok, [@object_reference_1]} =
+               Search.query(
+                 search_connection,
+                 @collection_0,
+                 @bucket_name_1,
+                 "thunder"
+               )
+
+      stop_connection(search_connection)
+      stop_connection(ingest_connection)
+    end
+
+    test "flushes an object" do
+      ingest_connection = start_connection("ingest")
+      search_connection = start_connection("search")
+
+      assert :ok ==
+               Ingest.push(
+                 ingest_connection,
                  @collection_0,
                  @bucket_name_0,
                  @object_reference_0,
-                 "question",
-                 "eng"
+                 @line_0
                )
 
-      # assert :ok ==
-      #          Ingest.push(
-      #            conn,
-      #            @collection_0,
-      #            @bucket_name_1,
-      #            @object_reference_0,
-      #            "The slings and arrows of outrageous fortune,"
-      #          )
-
-      # assert :ok == Ingest.flush(conn, @collection_0, @bucket_name_0)
-      # assert :ok == Ingest.flush(conn, @collection_0, @bucket_name_1)
-      # assert :ok == Ingest.flush(conn, @collection_0)
+      assert :ok ==
+               Ingest.push(
+                 ingest_connection,
+                 @collection_0,
+                 @bucket_name_0,
+                 @object_reference_1,
+                 @line_1
+               )
 
       consolidate()
 
-      assert 1 == Ingest.count(conn, @collection_0, @bucket_name_0)
-      # assert 1 == Ingest.count(conn, @collection_0, @bucket_name_1, @object_reference_0)
-      assert :ok == Ingest.flush(conn, @collection_0, @bucket_name_0)
-      assert :ok == Ingest.flush(conn, @collection_0, @bucket_name_1)
-      # assert :ok == Ingest.flush(conn, @collection_0)
+      assert :ok ==
+               Ingest.flush(ingest_connection, @collection_0, @bucket_name_0, @object_reference_0)
 
       consolidate()
 
-      assert 0 == Ingest.count(conn, @collection_0, @bucket_name_0, @object_reference_0)
-      assert 0 == Ingest.count(conn, @collection_0, @bucket_name_1, @object_reference_0)
+      assert {:ok, []} =
+               Search.query(
+                 search_connection,
+                 @collection_0,
+                 @bucket_name_0,
+                 "outrageous"
+               )
 
-      stop_connection(conn)
+      assert {:ok, [@object_reference_1]} =
+               Search.query(
+                 search_connection,
+                 @collection_0,
+                 @bucket_name_0,
+                 "thunder"
+               )
+
+      stop_connection(search_connection)
+      stop_connection(ingest_connection)
     end
-  end
-
-  describe "#flush" do
   end
 end
