@@ -42,6 +42,7 @@ defmodule SonicClientTest do
   test "add data to the index" do
     collection = "some_collection"
     object = "some_object"
+    bucket = "some_bucket"
     term = "The term."
 
     {:ok, conn} =

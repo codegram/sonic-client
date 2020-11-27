@@ -19,16 +19,8 @@ defmodule SonicClient.Modes.SearchTest do
       stop_connection(conn)
     end
 
-    # @tag :search
     test "returns list of elements" do
       conn = start_connection("search")
-
-      ingest_conn = start_connection("ingest")
-
-      Ingest.count(ingest_conn, "test_collection", "default_bucket")
-      |> IO.inspect()
-
-      stop_connection(ingest_conn)
 
       assert {:ok, ["user:1", "user:2"]} =
                Search.query(conn, "test_collection", "default_bucket", "test")
