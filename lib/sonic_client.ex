@@ -1,6 +1,4 @@
 defmodule SonicClient do
-  alias SonicClient.Modes.Control
-  alias SonicClient.Modes.Ingest
   alias SonicClient.TcpConnection
 
   @moduledoc """

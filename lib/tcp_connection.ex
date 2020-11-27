@@ -49,11 +49,6 @@ defmodule SonicClient.TcpConnection do
       {:ok, "PENDING " <> marker} <- receive_message(conn),
       {:ok, "EVENT " <> result} <- receive_message(conn)
     ) do
-      IO.inspect(marker)
-      IO.inspect(result)
-      # IO.inspect(receive_message(conn))
-      # IO.inspect(receive_message(conn))
-
       {
         :ok,
         result

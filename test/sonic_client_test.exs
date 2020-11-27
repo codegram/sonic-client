@@ -1,7 +1,6 @@
 defmodule SonicClientTest do
   use ExUnit.Case
   alias SonicClient.TcpConnection
-  import SonicClient.TestConnectionHelper
 
   test "start search mode" do
     assert {:ok, conn} =

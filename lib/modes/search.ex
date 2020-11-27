@@ -30,7 +30,6 @@ defmodule SonicClient.Modes.Search do
     locale = locale_from_opts(opts)
 
     command = ~s(QUERY #{collection} #{bucket} "#{terms}" #{limit} #{offset} #{locale})
-    IO.inspect(command)
 
     TcpConnection.search_request(conn, command)
   end
