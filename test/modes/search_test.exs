@@ -8,8 +8,8 @@ defmodule SonicClient.Modes.SearchTest do
     flush()
     consolidate()
 
-    add_data("user:1", "It is a common test")
-    add_data("user:2", "It is a common testable text")
+    add_data("user:1", "It is a common test that I love")
+    add_data("user:2", "It is a common testable text that I love")
     add_data("user:3", "It should not appear in the common search")
     consolidate()
 
@@ -32,8 +32,8 @@ defmodule SonicClient.Modes.SearchTest do
     test "returns list of elements" do
       conn = start_connection("search")
 
-      assert {:ok, ["user:1", "user:2"]} =
-               Search.query(conn, "test_collection", "default_bucket", "testable", locale: "eng")
+      assert {:ok, ["user:2", "user:1"]} =
+               Search.query(conn, "test_collection", "default_bucket", "love", locale: "eng")
 
       stop_connection(conn)
     end
