@@ -24,12 +24,13 @@ defmodule SonicClient.Modes.Search do
   {:ok, ["object2"]}
 
   """
-  def query(conn, collection, bucket, terms, opts \\ [limit: 10, offset: 0, locale: "eng"]) do
+  def query(conn, collection, bucket, terms, opts \\ [limit: 10, offset: 0]) do
     limit = limit_from_opts(opts)
     offset = offset_from_opts(opts)
     locale = locale_from_opts(opts)
 
     command = ~s(QUERY #{collection} #{bucket} "#{terms}" #{limit} #{offset} #{locale})
+    IO.inspect(command)
 
     TcpConnection.search_request(conn, command)
   end

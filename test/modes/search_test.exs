@@ -4,10 +4,14 @@ defmodule SonicClient.Modes.SearchTest do
   alias SonicClient.Modes.Search
   import SonicClient.TestConnectionHelper
 
-  setup_all do
+  setup do
+    flush()
+    consolidate()
+
     add_data("user:1", "It is a common test")
     add_data("user:2", "It is a common testable text")
     add_data("user:3", "It should not appear in the common search")
+    consolidate()
 
     on_exit(fn -> flush() end)
   end
@@ -24,11 +28,12 @@ defmodule SonicClient.Modes.SearchTest do
       stop_connection(conn)
     end
 
+    @tag :wip
     test "returns list of elements" do
       conn = start_connection("search")
 
       assert {:ok, ["user:1", "user:2"]} =
-               Search.query(conn, "test_collection", "default_bucket", "test")
+               Search.query(conn, "test_collection", "default_bucket", "testable", locale: "eng")
 
       stop_connection(conn)
     end

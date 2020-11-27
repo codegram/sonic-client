@@ -39,9 +39,9 @@ defmodule SonicClient.TestConnectionHelper do
     stop_connection(conn)
   end
 
-  def flush(collection \\ @test_collection) do
+  def flush(collection \\ @test_collection, bucket \\ @test_bucket) do
     conn = start_connection("ingest")
-    Ingest.flush(conn, collection)
+    Ingest.flush(conn, collection, bucket)
     stop_connection(conn)
   end
 
