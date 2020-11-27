@@ -1,5 +1,8 @@
 defmodule SonicClient.TestConnectionHelper do
   alias SonicClient
+  alias SonicClient.Control
+  alias SonicClient.Ingest
+
   @test_collection "test_collection"
   @test_bucket "default_bucket"
 
@@ -17,7 +20,7 @@ defmodule SonicClient.TestConnectionHelper do
 
   def add_data(object, term, collection \\ @test_collection, bucket \\ @test_bucket) do
     ingest_conn = start_connection("ingest")
-    SonicClient.push(ingest_conn, collection, bucket, object, term)
+    Ingest.push(ingest_conn, collection, bucket, object, term)
     stop_connection(ingest_conn)
 
     consolidate()
@@ -25,13 +28,13 @@ defmodule SonicClient.TestConnectionHelper do
 
   def consolidate do
     conn = start_connection("control")
-    SonicClient.consolidate(conn)
+    Control.consolidate(conn)
     stop_connection(conn)
   end
 
   def flush(collection \\ @test_collection) do
     conn = start_connection("ingest")
-    SonicClient.flush(conn, collection)
+    Ingest.flush(conn, collection)
     stop_connection(conn)
   end
 

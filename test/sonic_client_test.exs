@@ -1,6 +1,7 @@
 defmodule SonicClientTest do
   use ExUnit.Case
   alias SonicClient.TcpConnection
+  import SonicClient.TestConnectionHelper
 
   test "start search mode" do
     assert {:ok, conn} =
@@ -36,70 +37,7 @@ defmodule SonicClientTest do
         "SecretPassword"
       )
 
-    SonicClient.stop(conn)
-  end
-
-  test "add data to the index" do
-    collection = "some_collection"
-    object = "some_object"
-    bucket = "some_bucket"
-    term = "The term."
-
-    {:ok, conn} =
-      SonicClient.start(
-        host(),
-        1491,
-        "ingest",
-        "SecretPassword"
-      )
-
-    assert :ok == SonicClient.push(conn, collection, object, term)
-    SonicClient.stop(conn)
-
-    {:ok, conn} =
-      SonicClient.start(
-        host(),
-        1491,
-        "control",
-        "SecretPassword"
-      )
-
-    assert :ok == SonicClient.consolidate(conn)
-    SonicClient.stop(conn)
-
-    {:ok, conn} =
-      SonicClient.start(
-        host(),
-        1491,
-        "ingest",
-        "SecretPassword"
-      )
-
-    assert 1 == SonicClient.count(conn, collection)
-    assert :ok == SonicClient.flush(conn, collection)
-    SonicClient.stop(conn)
-
-    {:ok, conn} =
-      SonicClient.start(
-        host(),
-        1491,
-        "control",
-        "SecretPassword"
-      )
-
-    assert :ok == SonicClient.consolidate(conn)
-    SonicClient.stop(conn)
-
-    {:ok, conn} =
-      SonicClient.start(
-        host(),
-        1491,
-        "ingest",
-        "SecretPassword"
-      )
-
-    assert 0 == SonicClient.count(conn, collection)
-    SonicClient.stop(conn)
+    assert :ok = SonicClient.stop(conn)
   end
 
   defp host do

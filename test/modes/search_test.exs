@@ -1,7 +1,7 @@
 defmodule SonicClient.Modes.SearchTest do
   use ExUnit.Case
-  alias SonicClient.Modes.Search
   alias SonicClient.Modes.Ingest
+  alias SonicClient.Modes.Search
   import SonicClient.TestConnectionHelper
 
   setup_all do

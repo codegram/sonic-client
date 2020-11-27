@@ -55,20 +55,4 @@ defmodule SonicClient do
     command = "PING"
     TcpConnection.request(conn, command)
   end
-
-  def push(conn, collection, bucket, object, term) do
-    Ingest.push(conn, collection, bucket, object, term)
-  end
-
-  def count(conn, collection) do
-    Ingest.count(conn, collection)
-  end
-
-  def flush(conn, collection) do
-    Ingest.flush(conn, collection)
-  end
-
-  def consolidate(conn) do
-    Control.consolidate(conn)
-  end
 end

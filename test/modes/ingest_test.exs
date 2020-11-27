@@ -1,7 +1,6 @@
 defmodule SonicClient.Modes.IngestTest do
   use ExUnit.Case
   alias SonicClient.Modes.Search
-  alias SonicClient.Modes.Ingest
   import SonicClient.TestConnectionHelper
 
   @collection_0 "plays"
@@ -9,6 +8,7 @@ defmodule SonicClient.Modes.IngestTest do
   @bucket_name_1 "reader_1"
   @object_reference_0 "hamlet"
   @object_reference_1 "macbeth"
+  @locale "engl"
 
   @line_0 "Whether it is nobler in the mind to suffer the slings and arrows of outrageous fortune,"
   @line_1 "When shall we three meet again, in thunder, lightning, or in rain?"
@@ -24,7 +24,8 @@ defmodule SonicClient.Modes.IngestTest do
                  @collection_0,
                  @bucket_name_0,
                  @object_reference_0,
-                 @line_0
+                 @line_0,
+                 @locale
                )
 
       assert :ok ==
@@ -33,7 +34,8 @@ defmodule SonicClient.Modes.IngestTest do
                  @collection_0,
                  @bucket_name_1,
                  @object_reference_1,
-                 @line_1
+                 @line_1,
+                 @locale
                )
 
       consolidate()
@@ -63,9 +65,6 @@ defmodule SonicClient.Modes.IngestTest do
     end
   end
 
-  describe "#pop" do
-  end
-
   describe "#flush" do
     test "flushes a whole collection" do
       ingest_connection = start_connection("ingest")
@@ -77,7 +76,8 @@ defmodule SonicClient.Modes.IngestTest do
                  @collection_0,
                  @bucket_name_0,
                  @object_reference_0,
-                 @line_0
+                 @line_0,
+                 @locale
                )
 
       assert :ok ==
@@ -86,7 +86,8 @@ defmodule SonicClient.Modes.IngestTest do
                  @collection_0,
                  @bucket_name_1,
                  @object_reference_1,
-                 @line_1
+                 @line_1,
+                 @locale
                )
 
       consolidate()
@@ -126,7 +127,8 @@ defmodule SonicClient.Modes.IngestTest do
                  @collection_0,
                  @bucket_name_0,
                  @object_reference_0,
-                 @line_0
+                 @line_0,
+                 @locale
                )
 
       assert :ok ==
@@ -135,7 +137,8 @@ defmodule SonicClient.Modes.IngestTest do
                  @collection_0,
                  @bucket_name_1,
                  @object_reference_1,
-                 @line_1
+                 @line_1,
+                 @locale
                )
 
       consolidate()
