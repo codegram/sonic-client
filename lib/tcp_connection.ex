@@ -43,6 +43,7 @@ defmodule SonicClient.TcpConnection do
     end
   end
 
+  @spec search_request(any, binary) :: {:error, any} | {:ok, [binary]}
   def search_request(conn, command) do
     with(
       :ok <- send_message(conn, command),
