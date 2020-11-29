@@ -62,6 +62,7 @@ defmodule SonicClient.TcpConnection do
     end
   end
 
+  @spec close(any) :: any
   def close(conn), do: Connection.call(conn, :close)
 
   defp send_message(conn, message) do

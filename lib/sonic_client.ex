@@ -4,15 +4,17 @@ defmodule SonicClient do
   @moduledoc """
   Creates, starts and  stops a client for the [Sonic search backend](https://github.com/valeriansaliou/sonic).
   """
+
   @doc """
   Start a connection with the Sonic server.
 
   ## Examples
 
-      iex> SonicClient.start({127, 0, 0, 1}, 1491, "search", "secret")
+      iex> SonicClient.start("sonic.local", 1491, "search", "secret")
       {:ok, conn}
 
   """
+  @spec start(binary, integer, String.t(), String.t()) :: {:error, any} | {:ok, binary | pid}
   def start(host, port, mode, password) do
     command = "START #{mode} #{password}"
 
@@ -30,7 +32,10 @@ defmodule SonicClient do
 
   @doc """
   Stop connection with Sonic server
+
+  ## Examples
   """
+  @spec stop(pid) :: any
   def stop(conn) do
     command = "QUIT"
 
@@ -48,6 +53,7 @@ defmodule SonicClient do
       PONG
 
   """
+  @spec ping(pid) :: {:error, any} | {:ok, binary}
   def ping(conn) do
     command = "PING"
     TcpConnection.request(conn, command)
