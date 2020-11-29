@@ -3,6 +3,11 @@ defmodule SonicClient.Modes.Ingest do
 
   @spec push(pid, String.t(), String.t(), String.t(), String.t(), String.t()) ::
           :ok | {:error, any} | {:ok, binary}
+  @doc """
+  Add a term for a given locale related to an object in the context a collection's bucket.
+
+  Sends Sonic command: `PUSH <collection> <bucket> <object> "<term>" LANG(<locale>)`
+  """
   def push(conn, collection, bucket, object, term, locale) do
     command = ~s[PUSH #{collection} #{bucket} #{object} "#{term}" LANG(#{locale})]
 
@@ -13,18 +18,33 @@ defmodule SonicClient.Modes.Ingest do
   end
 
   @spec flush(pid(), String.t()) :: :ok | {:error, any} | {:ok, binary}
+  @doc """
+  Flush collection
+
+  Sends Sonic command: `FLUSHC <collection>`
+  """
   def flush(conn, collection) do
     ~s[FLUSHC #{collection}]
     |> (&send_flush_request(conn, &1)).()
   end
 
   @spec flush(pid(), String.t(), String.t()) :: :ok | {:error, any} | {:ok, binary}
+  @doc """
+  Flush bucket in a collection
+
+  Sends Sonic command: `FLUSHB <collection> <bucket>`
+  """
   def flush(conn, collection, bucket) do
     ~s[FLUSHB #{collection} #{bucket}]
     |> (&send_flush_request(conn, &1)).()
   end
 
   @spec flush(pid(), String.t(), String.t(), String.t()) :: :ok | {:error, any} | {:ok, binary}
+  @doc """
+  Flush object in a collection's bucket.
+
+  Sends Sonic command: `FLUSHB <collection> <bucket> <object>`
+  """
   def flush(conn, collection, bucket, object) do
     ~s[FLUSHO #{collection} #{bucket} #{object}]
     |> (&send_flush_request(conn, &1)).()

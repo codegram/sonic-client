@@ -14,7 +14,7 @@ defmodule SonicClient.Modes.Search do
 
   ## Examples
 
-  iex> {:ok, conn} = SonicClient.start(127.0.0.1, 1491, "search", "secret")
+  iex> {:ok, conn} = SonicClient.start('localhost', 1491, "search", "secret")
 
   iex> SonicClient.Modes.Search.query("my_collection", "bucket", "test")
   {:ok, ["object1", "object2"]}
@@ -43,7 +43,7 @@ defmodule SonicClient.Modes.Search do
 
   ## Examples
 
-  iex> {:ok, conn} = SonicClient.start(127.0.0.1, 1491, "search", "secret")
+  iex> {:ok, conn} = SonicClient.start('localhost', 1491, "search", "secret")
 
   iex> SonicClient.Modes.Search.suggest("my_collection", "bucket", "te")
   {:ok, ["test", "testable"]}
