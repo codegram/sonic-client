@@ -7,6 +7,8 @@ defmodule SonicClient.Modes.Search do
 
   @default_limit 15
 
+  @spec query(pid, String.t(), String.t(), String.t(), nil | maybe_improper_list | map) ::
+          {:error, any} | {:ok, [String.t()]}
   @doc """
   Query sonic database
 
@@ -34,6 +36,8 @@ defmodule SonicClient.Modes.Search do
     TcpConnection.search_request(conn, command)
   end
 
+  @spec suggest(pid(), String.t(), String.t(), String.t(), nil | maybe_improper_list | map) ::
+          {:error, any} | {:ok, [String.t()]}
   @doc """
   Search for suggestion of words for autocomplete
 

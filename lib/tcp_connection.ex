@@ -5,6 +5,7 @@ defmodule SonicClient.TcpConnection do
 
   use Connection
 
+  @spec open(String.t(), integer(), list(), integer()) :: {:error, any()} | {:ok, pid()}
   @doc """
   Starts connection with the Sonic server as a child process.
 
@@ -17,7 +18,6 @@ defmodule SonicClient.TcpConnection do
       SonicClient.TcpConnection.open(127.0.0.1, 1491, [])
       {:ok, #PID<0.198.0>}
   """
-  @spec open(String.t(), integer(), list(), integer()) :: {:error, any()} | {:ok, pid()}
   def open(host, port, opts \\ [], timeout \\ 5000) do
     {:ok, conn} = Connection.start_link(__MODULE__, {host, port, opts, timeout})
 
@@ -27,6 +27,7 @@ defmodule SonicClient.TcpConnection do
     end
   end
 
+  @spec request(pid(), String.t()) :: {:ok, String.t()} | {:error, any()}
   @doc """
   Sends a synchronous request with command `command` to the Sonic server through the PID child.
 
@@ -34,8 +35,6 @@ defmodule SonicClient.TcpConnection do
 
   Where response is a String with the body of the response.
   """
-
-  @spec request(pid(), String.t()) :: {:ok, String.t()} | {:error, any()}
   def request(conn, command) do
     case send_message(conn, command) do
       :ok -> receive_message(conn)
