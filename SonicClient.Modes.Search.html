@@ -5,10 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.23.0">
-    <meta name="project" content="sonic_client v0.1.0">
-    <title>SonicClient.Modes.Search — sonic_client v0.1.0</title>
+    <meta name="project" content="sonic_client v0.2.0">
+    <title>SonicClient.Modes.Search — sonic_client v0.2.0</title>
     <link rel="stylesheet" href="dist/elixir-9f91ebe876dc01d67920.css" />
-    <script src="dist/sidebar_items-3a073b5b85.js"></script>
+    <script src="dist/sidebar_items-224e8cc387.js"></script>
       <script src="docs_config.js"></script>
     <script async src="dist/app-60a0c9f10e9e52eae31f.js"></script>
   </head>
@@ -43,7 +43,7 @@
       <a href="SonicClient.html" class="sidebar-projectName">
 sonic_client      </a>
       <strong class="sidebar-projectVersion">
-        v0.1.0
+        v0.2.0
       </strong>
     </div>
   </div>
@@ -63,7 +63,7 @@ sonic_client      </a>
     <div id="content" class="content-inner">
 
       <h1>
-        SonicClient.Modes.Search <small class="app-vsn">(sonic_client v0.1.0)</small>
+        SonicClient.Modes.Search <small class="app-vsn">(sonic_client v0.2.0)</small>
           <a href="https://codegram.github.io/sonic-client/" title="View Source" class="view-source" rel="help">
             <span class="icon-code" aria-hidden="true"></span>
             <span class="sr-only">View Source</span>
@@ -124,12 +124,22 @@ Functions          </h1>
   </div>
 
   <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>query(
+  <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(),
+  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  nil | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">maybe_improper_list</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()
+) :: {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()} | {:ok, [<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()]}</pre>
+      </div>
 
 <p>Query sonic database</p><h2 id="query/5-examples" class="section-heading">
   <a href="#query/5-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Examples
 </h2>
-<p>iex&gt; {:ok, conn} = SonicClient.start(127.0.0.1, 1491, &quot;search&quot;, &quot;secret&quot;)</p><p>iex&gt; SonicClient.Modes.Search.query(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;test&quot;)</p><p>iex&gt; SonicClient.Modes.Search.query(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;test&quot;, limit: 1)</p><p>iex&gt; SonicClient.Modes.Search.query(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;test&quot;, limit: 1, offset: 1)</p>  </section>
+<p>iex&gt; {:ok, conn} = SonicClient.start('localhost', 1491, &quot;search&quot;, &quot;secret&quot;)</p><p>iex&gt; SonicClient.Modes.Search.query(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;test&quot;)</p><p>iex&gt; SonicClient.Modes.Search.query(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;test&quot;, limit: 1)</p><p>iex&gt; SonicClient.Modes.Search.query(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;test&quot;, limit: 1, offset: 1)</p>  </section>
 </section>
 <section class="detail" id="suggest/5">
     <span id="suggest/4"></span>
@@ -146,12 +156,22 @@ Functions          </h1>
   </div>
 
   <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>suggest(
+  <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(),
+  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  nil | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">maybe_improper_list</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()
+) :: {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()} | {:ok, [<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()]}</pre>
+      </div>
 
 <p>Search for suggestion of words for autocomplete</p><h2 id="suggest/5-examples" class="section-heading">
   <a href="#suggest/5-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Examples
 </h2>
-<p>iex&gt; {:ok, conn} = SonicClient.start(127.0.0.1, 1491, &quot;search&quot;, &quot;secret&quot;)</p><p>iex&gt; SonicClient.Modes.Search.suggest(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;te&quot;)</p><p>iex&gt; SonicClient.Modes.Search.suggest(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;te&quot;, limit: 1)</p>  </section>
+<p>iex&gt; {:ok, conn} = SonicClient.start('localhost', 1491, &quot;search&quot;, &quot;secret&quot;)</p><p>iex&gt; SonicClient.Modes.Search.suggest(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;te&quot;)</p><p>iex&gt; SonicClient.Modes.Search.suggest(&quot;my_collection&quot;, &quot;bucket&quot;, &quot;te&quot;, limit: 1)</p>  </section>
 </section>
           </div>
         </section>

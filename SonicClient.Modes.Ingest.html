@@ -5,10 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.23.0">
-    <meta name="project" content="sonic_client v0.1.0">
-    <title>SonicClient.Modes.Ingest — sonic_client v0.1.0</title>
+    <meta name="project" content="sonic_client v0.2.0">
+    <title>SonicClient.Modes.Ingest — sonic_client v0.2.0</title>
     <link rel="stylesheet" href="dist/elixir-9f91ebe876dc01d67920.css" />
-    <script src="dist/sidebar_items-3a073b5b85.js"></script>
+    <script src="dist/sidebar_items-224e8cc387.js"></script>
       <script src="docs_config.js"></script>
     <script async src="dist/app-60a0c9f10e9e52eae31f.js"></script>
   </head>
@@ -43,7 +43,7 @@
       <a href="SonicClient.html" class="sidebar-projectName">
 sonic_client      </a>
       <strong class="sidebar-projectVersion">
-        v0.1.0
+        v0.2.0
       </strong>
     </div>
   </div>
@@ -63,7 +63,7 @@ sonic_client      </a>
     <div id="content" class="content-inner">
 
       <h1>
-        SonicClient.Modes.Ingest <small class="app-vsn">(sonic_client v0.1.0)</small>
+        SonicClient.Modes.Ingest <small class="app-vsn">(sonic_client v0.2.0)</small>
           <a href="https://codegram.github.io/sonic-client/" title="View Source" class="view-source" rel="help">
             <span class="icon-code" aria-hidden="true"></span>
             <span class="sr-only">View Source</span>
@@ -86,18 +86,27 @@ sonic_client      </a>
     </h2>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#count/2">count(conn, collection)</a>
-  </div>
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
     <a href="#flush/2">flush(conn, collection)</a>
   </div>
+    <div class="summary-synopsis"><p>Flush collection</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#push/4">push(conn, collection, object, term)</a>
+    <a href="#flush/3">flush(conn, collection, bucket)</a>
   </div>
+    <div class="summary-synopsis"><p>Flush bucket in a collection</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#flush/4">flush(conn, collection, bucket, object)</a>
+  </div>
+    <div class="summary-synopsis"><p>Flush object in a collection's bucket.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#push/6">push(conn, collection, bucket, object, term, locale)</a>
+  </div>
+    <div class="summary-synopsis"><p>Add a term for a given locale related to an object in the context a collection's bucket.</p></div>
 </div>
   </div>
         </section>
@@ -110,23 +119,6 @@ sonic_client      </a>
             </a>
 Functions          </h1>
           <div class="functions-list">
-<section class="detail" id="count/2">
-  <div class="detail-header">
-    <a href="#count/2" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature">count(conn, collection)</h1>
-      <a href="https://codegram.github.io/sonic-client/" class="view-source" rel="help" title="View Source">
-       <span class="icon-code" aria-hidden="true"></span>
-       <span class="sr-only">View Source</span>
-     </a>
-  </div>
-
-  <section class="docstring">
-
-  </section>
-</section>
 <section class="detail" id="flush/2">
   <div class="detail-header">
     <a href="#flush/2" class="detail-link" title="Link to this function">
@@ -141,16 +133,20 @@ Functions          </h1>
   </div>
 
   <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>flush(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()} | {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()}</pre>
+      </div>
 
-  </section>
+<p>Flush collection</p><p>Sends Sonic command: <code class="inline">FLUSHC &lt;collection&gt;</code></p>  </section>
 </section>
-<section class="detail" id="push/4">
+<section class="detail" id="flush/3">
   <div class="detail-header">
-    <a href="#push/4" class="detail-link" title="Link to this function">
+    <a href="#flush/3" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">push(conn, collection, object, term)</h1>
+    <h1 class="signature">flush(conn, collection, bucket)</h1>
       <a href="https://codegram.github.io/sonic-client/" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
@@ -158,8 +154,56 @@ Functions          </h1>
   </div>
 
   <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>flush(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()} | {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()}</pre>
+      </div>
 
-  </section>
+<p>Flush bucket in a collection</p><p>Sends Sonic command: <code class="inline">FLUSHB &lt;collection&gt; &lt;bucket&gt;</code></p>  </section>
+</section>
+<section class="detail" id="flush/4">
+  <div class="detail-header">
+    <a href="#flush/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">flush(conn, collection, bucket, object)</h1>
+      <a href="https://codegram.github.io/sonic-client/" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>flush(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) ::
+  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()} | {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()}</pre>
+      </div>
+
+<p>Flush object in a collection's bucket.</p><p>Sends Sonic command: <code class="inline">FLUSHO &lt;collection&gt; &lt;bucket&gt; &lt;object&gt;</code></p>  </section>
+</section>
+<section class="detail" id="push/6">
+  <div class="detail-header">
+    <a href="#push/6" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">push(conn, collection, bucket, object, term, locale)</h1>
+      <a href="https://codegram.github.io/sonic-client/" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>push(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) ::
+  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()} | {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()}</pre>
+      </div>
+
+<p>Add a term for a given locale related to an object in the context a collection's bucket.</p><p>Sends Sonic command: <code class="inline">PUSH &lt;collection&gt; &lt;bucket&gt; &lt;object&gt; &quot;&lt;term&gt;&quot; LANG(&lt;locale&gt;)</code></p>  </section>
 </section>
           </div>
         </section>
