@@ -35,8 +35,9 @@ defmodule SonicClient do
   Stop connection with Sonic server
 
   ## Examples
-    iex> SonicClient.stop(conn)
-    :ok
+
+      iex> SonicClient.stop(conn)
+      :ok
 
   """
   def stop(conn) do

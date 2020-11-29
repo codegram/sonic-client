@@ -43,7 +43,7 @@ defmodule SonicClient.Modes.Ingest do
   @doc """
   Flush object in a collection's bucket.
 
-  Sends Sonic command: `FLUSHB <collection> <bucket> <object>`
+  Sends Sonic command: `FLUSHO <collection> <bucket> <object>`
   """
   def flush(conn, collection, bucket, object) do
     ~s[FLUSHO #{collection} #{bucket} #{object}]
