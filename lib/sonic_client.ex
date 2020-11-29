@@ -2,15 +2,14 @@ defmodule SonicClient do
   alias SonicClient.TcpConnection
 
   @moduledoc """
-  Client for [Sonic search backend](https://github.com/valeriansaliou/sonic)
+  Creates, starts and  stops a client for the [Sonic search backend](https://github.com/valeriansaliou/sonic).
   """
-
   @doc """
-  Start Connection with Sonic Server.
+  Start a connection with the Sonic server.
 
   ## Examples
 
-      iex> SonicClient.start(127.0.0.1, 1491, "search", "secret")
+      iex> SonicClient.start({127, 0, 0, 1}, 1491, "search", "secret")
       {:ok, conn}
 
   """

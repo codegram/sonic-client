@@ -49,7 +49,7 @@ defmodule SonicClient.TestConnectionHelper do
     SonicClient.stop(conn)
   end
 
-  defp host do
+  def host do
     Kernel.to_charlist(System.get_env("SONIC_HOST", "sonic"))
   end
 end

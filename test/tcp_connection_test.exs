@@ -1,6 +1,7 @@
 defmodule SonicClient.TcpConnectionTest do
   use ExUnit.Case
   alias SonicClient.TcpConnection
+  import SonicClient.TestConnectionHelper
 
   describe "#open" do
     test "Successful connection" do
@@ -42,9 +43,5 @@ defmodule SonicClient.TcpConnectionTest do
     ) do
       conn
     end
-  end
-
-  defp host do
-    Kernel.to_charlist(System.get_env("SONIC_HOST", "sonic"))
   end
 end
