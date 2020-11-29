@@ -2,11 +2,16 @@
 ![CI](https://github.com/codegram/sonic-client/workflows/CI/badge.svg)
 ![generate-docs](https://github.com/codegram/sonic-client/workflows/generate-docs/badge.svg)
 
-Sonic Client for Elixir
+Client library to interact with a [Sonic search backend](https://github.com/valeriansaliou/sonic) service.
 
-**TODO: Add description**
+🚨  This is still **pre-alpha** software and under heavy development. Use at you own risk. 🙂
+
+This 
 
 ## Docs
+
+The code documentation is automatically generated with [ExDoc](https://github.com/elixir-lang/ex_doc) and
+deployed here:
 https://codegram.github.io/sonic-client/
 
 ## Installation
@@ -17,7 +22,7 @@ by adding `sonic_client` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:sonic_client, "~> 0.1.0"}
+    {:sonic_client, "~> 0.2.0"}
   ]
 end
 ```

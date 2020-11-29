@@ -1,6 +1,11 @@
 defmodule SonicClient.TestConnectionHelper do
   alias SonicClient
+  alias SonicClient.Modes.Control
+  alias SonicClient.Modes.Ingest
+
   @test_collection "test_collection"
+  @test_bucket "default_bucket"
+  @default_locale "eng"
 
   def start_connection(mode) do
     {:ok, conn} =
@@ -14,19 +19,29 @@ defmodule SonicClient.TestConnectionHelper do
     conn
   end
 
-  def add_data(object, term, collection \\ @test_collection) do
+  def add_data(
+        object,
+        term,
+        collection \\ @test_collection,
+        bucket \\ @test_bucket,
+        locale \\ @default_locale
+      ) do
     ingest_conn = start_connection("ingest")
-    SonicClient.push(ingest_conn, collection, object, term)
+    Ingest.push(ingest_conn, collection, bucket, object, term, locale)
     stop_connection(ingest_conn)
 
-    control_conn = start_connection("control")
-    SonicClient.consolidate(control_conn)
-    stop_connection(control_conn)
+    consolidate()
   end
 
-  def flush(collection \\ @test_collection) do
+  def consolidate do
+    conn = start_connection("control")
+    Control.consolidate(conn)
+    stop_connection(conn)
+  end
+
+  def flush(collection \\ @test_collection, bucket \\ @test_bucket) do
     conn = start_connection("ingest")
-    SonicClient.flush(conn, collection)
+    Ingest.flush(conn, collection, bucket)
     stop_connection(conn)
   end
 
@@ -34,7 +49,7 @@ defmodule SonicClient.TestConnectionHelper do
     SonicClient.stop(conn)
   end
 
-  defp host do
+  def host do
     Kernel.to_charlist(System.get_env("SONIC_HOST", "sonic"))
   end
 end

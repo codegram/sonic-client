@@ -1,10 +1,15 @@
 defmodule SonicClient.Modes.Ingest do
   alias SonicClient.TcpConnection
 
-  @default_bucket_name "default_bucket"
+  @spec push(pid, String.t(), String.t(), String.t(), String.t(), String.t()) ::
+          :ok | {:error, any} | {:ok, binary}
+  @doc """
+  Add a term for a given locale related to an object in the context a collection's bucket.
 
-  def push(conn, collection, object, term) do
-    command = ~s(PUSH #{collection} #{@default_bucket_name} #{object} "#{term}")
+  Sends Sonic command: `PUSH <collection> <bucket> <object> "<term>" LANG(<locale>)`
+  """
+  def push(conn, collection, bucket, object, term, locale) do
+    command = ~s[PUSH #{collection} #{bucket} #{object} "#{term}" LANG(#{locale})]
 
     case TcpConnection.request(conn, command) do
       {:ok, "OK"} -> :ok
@@ -12,23 +17,40 @@ defmodule SonicClient.Modes.Ingest do
     end
   end
 
-  def count(conn, collection) do
-    command = "COUNT #{collection}"
+  @spec flush(pid(), String.t()) :: :ok | {:error, any} | {:ok, binary}
+  @doc """
+  Flush collection
 
-    case TcpConnection.request(conn, command) do
-      {:ok, "RESULT " <> num_str} ->
-        case Integer.parse(num_str) do
-          {num, _} -> num
-        end
-
-      error ->
-        error
-    end
+  Sends Sonic command: `FLUSHC <collection>`
+  """
+  def flush(conn, collection) do
+    ~s[FLUSHC #{collection}]
+    |> (&send_flush_request(conn, &1)).()
   end
 
-  def flush(conn, collection) do
-    command = "FLUSHC #{collection}"
+  @spec flush(pid(), String.t(), String.t()) :: :ok | {:error, any} | {:ok, binary}
+  @doc """
+  Flush bucket in a collection
 
+  Sends Sonic command: `FLUSHB <collection> <bucket>`
+  """
+  def flush(conn, collection, bucket) do
+    ~s[FLUSHB #{collection} #{bucket}]
+    |> (&send_flush_request(conn, &1)).()
+  end
+
+  @spec flush(pid(), String.t(), String.t(), String.t()) :: :ok | {:error, any} | {:ok, binary}
+  @doc """
+  Flush object in a collection's bucket.
+
+  Sends Sonic command: `FLUSHO <collection> <bucket> <object>`
+  """
+  def flush(conn, collection, bucket, object) do
+    ~s[FLUSHO #{collection} #{bucket} #{object}]
+    |> (&send_flush_request(conn, &1)).()
+  end
+
+  defp send_flush_request(conn, command) do
     case TcpConnection.request(conn, command) do
       {:ok, "RESULT " <> _msg} ->
         :ok
