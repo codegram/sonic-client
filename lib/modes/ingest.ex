@@ -11,32 +11,21 @@ defmodule SonicClient.Modes.Ingest do
   end
 
   def flush(conn, collection) do
-    command = ~s[FLUSHC #{collection}]
-
-    case TcpConnection.request(conn, command) do
-      {:ok, "RESULT " <> _msg} ->
-        :ok
-
-      error ->
-        error
-    end
+    ~s[FLUSHC #{collection}]
+    |> (&send_flush_request(conn, &1)).()
   end
 
   def flush(conn, collection, bucket) do
-    command = ~s[FLUSHB #{collection} #{bucket}]
-
-    case TcpConnection.request(conn, command) do
-      {:ok, "RESULT " <> _msg} ->
-        :ok
-
-      error ->
-        error
-    end
+    ~s[FLUSHB #{collection} #{bucket}]
+    |> (&send_flush_request(conn, &1)).()
   end
 
   def flush(conn, collection, bucket, object) do
-    command = ~s[FLUSHO #{collection} #{bucket} #{object}]
+    ~s[FLUSHO #{collection} #{bucket} #{object}]
+    |> (&send_flush_request(conn, &1)).()
+  end
 
+  defp send_flush_request(conn, command) do
     case TcpConnection.request(conn, command) do
       {:ok, "RESULT " <> _msg} ->
         :ok

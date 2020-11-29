@@ -34,6 +34,9 @@ defmodule SonicClient do
   Stop connection with Sonic server
 
   ## Examples
+    iex> SonicClient.stop(conn)
+    :ok
+
   """
   @spec stop(pid) :: any
   def stop(conn) do
