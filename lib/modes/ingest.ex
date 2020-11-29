@@ -1,6 +1,8 @@
 defmodule SonicClient.Modes.Ingest do
   alias SonicClient.TcpConnection
 
+  @spec push(pid, String.t(), String.t(), String.t(), String.t(), String.t()) ::
+          :ok | {:error, any} | {:ok, binary}
   def push(conn, collection, bucket, object, term, locale) do
     command = ~s[PUSH #{collection} #{bucket} #{object} "#{term}" LANG(#{locale})]
 
@@ -10,16 +12,19 @@ defmodule SonicClient.Modes.Ingest do
     end
   end
 
+  @spec flush(pid(), String.t()) :: :ok | {:error, any} | {:ok, binary}
   def flush(conn, collection) do
     ~s[FLUSHC #{collection}]
     |> (&send_flush_request(conn, &1)).()
   end
 
+  @spec flush(pid(), String.t(), String.t()) :: :ok | {:error, any} | {:ok, binary}
   def flush(conn, collection, bucket) do
     ~s[FLUSHB #{collection} #{bucket}]
     |> (&send_flush_request(conn, &1)).()
   end
 
+  @spec flush(pid(), String.t(), String.t(), String.t()) :: :ok | {:error, any} | {:ok, binary}
   def flush(conn, collection, bucket, object) do
     ~s[FLUSHO #{collection} #{bucket} #{object}]
     |> (&send_flush_request(conn, &1)).()
